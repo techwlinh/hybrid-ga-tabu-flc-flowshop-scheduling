@@ -13,11 +13,71 @@ from src.algorithm.tabu import TabuSearch
 def _eval_worker(args) -> float:
     """
     Module-level worker function for parallel chromosome evaluation.
-    This function is picklable and runs in child processes.
+    Receives plain dicts/lists instead of dataclass instances to avoid
+    pickle class-identity issues caused by Streamlit's module reloading.
     """
-    chromosome, batches, jobs_dict, workstations, setup_times, setup_costs = args
-    res = ChromosomeDecoder.decode(chromosome, batches, jobs_dict, workstations, setup_times, setup_costs)
+    from src.models import Batch, Job, Workstation, Machine
+
+    chromosome, batch_dicts, job_dicts, ws_dicts, setup_times, setup_costs, transport_matrix = args
+
+    # Reconstruct Batch objects from plain dicts
+    batches = [
+        Batch(id=b["id"], job_id=b["job_id"], batch_index=b["batch_index"],
+              quantity=b["quantity"], processing_times=b["processing_times"])
+        for b in batch_dicts
+    ]
+
+    # Reconstruct Job objects from plain dicts
+    jobs_dict = {}
+    for jd in job_dicts:
+        jobs_dict[jd["id"]] = Job(
+            id=jd["id"], quantity=jd["quantity"], due_date=jd["due_date"],
+            priority=jd["priority"], material_arrival_time=jd["material_arrival_time"],
+            unit_processing_times=jd["unit_processing_times"],
+            eligible_machines=jd["eligible_machines"],
+        )
+
+    # Reconstruct Workstation objects from plain dicts
+    workstations = [
+        Workstation(
+            id=wd["id"], name=wd["name"],
+            machines=[Machine(id=md["id"], workstation_id=md["workstation_id"], name=md["name"]) for md in wd["machines"]]
+        )
+        for wd in ws_dicts
+    ]
+
+    res = ChromosomeDecoder.decode(chromosome, batches, jobs_dict, workstations, setup_times, setup_costs, transport_matrix)
     return float(res.total_tardiness + 1e-4 * res.total_setup_cost)
+
+
+def _serialize_batches(batches):
+    """Convert Batch dataclass instances to plain dicts for pickling."""
+    return [
+        {"id": b.id, "job_id": b.job_id, "batch_index": b.batch_index,
+         "quantity": b.quantity, "processing_times": b.processing_times}
+        for b in batches
+    ]
+
+
+def _serialize_jobs_dict(jobs_dict):
+    """Convert Job dataclass instances to plain dicts for pickling."""
+    return [
+        {"id": j.id, "quantity": j.quantity, "due_date": j.due_date,
+         "priority": j.priority, "material_arrival_time": j.material_arrival_time,
+         "unit_processing_times": j.unit_processing_times,
+         "eligible_machines": j.eligible_machines}
+        for j in jobs_dict.values()
+    ]
+
+
+def _serialize_workstations(workstations):
+    """Convert Workstation/Machine dataclass instances to plain dicts for pickling."""
+    return [
+        {"id": ws.id, "name": ws.name,
+         "machines": [{"id": m.id, "workstation_id": m.workstation_id, "name": m.name} for m in ws.machines]}
+        for ws in workstations
+    ]
+
 
 
 class HFGA_TS:
@@ -111,9 +171,15 @@ class HFGA_TS:
     def _evaluate_population(self, population: np.ndarray, executor: ProcessPoolExecutor = None) -> np.ndarray:
         """Evaluates fitnesses of a population of chromosomes, using multiprocessing if enabled."""
         pop_size = len(population)
+        transport_mat = getattr(self.problem, "transport_matrix", None)
         if self.use_parallel and executor is not None:
+            # Serialize dataclass objects to plain dicts to avoid pickle class-identity
+            # issues when running under Streamlit's module reloading
+            batch_dicts = _serialize_batches(self.batches)
+            job_dicts = _serialize_jobs_dict(self.jobs_dict)
+            ws_dicts = _serialize_workstations(self.problem.workstations)
             tasks_args = [
-                (population[i], self.batches, self.jobs_dict, self.problem.workstations, self.problem.setup_times, self.problem.setup_costs)
+                (population[i], batch_dicts, job_dicts, ws_dicts, self.problem.setup_times, self.problem.setup_costs, transport_mat)
                 for i in range(pop_size)
             ]
             fit_list = list(executor.map(_eval_worker, tasks_args))
@@ -123,10 +189,12 @@ class HFGA_TS:
             for i in range(pop_size):
                 res = ChromosomeDecoder.decode(
                     population[i], self.batches, self.jobs_dict,
-                    self.problem.workstations, self.problem.setup_times, self.problem.setup_costs
+                    self.problem.workstations, self.problem.setup_times, self.problem.setup_costs,
+                    transport_mat
                 )
                 fitnesses[i] = self._evaluate_fitness(res)
             return fitnesses
+
 
 
     def _select_parent(self, population: np.ndarray, fitnesses: np.ndarray) -> np.ndarray:
@@ -273,13 +341,16 @@ class HFGA_TS:
                         self.problem.setup_times,
                         self.problem.setup_costs,
                         ChromosomeDecoder.decode,
-                        self._evaluate_fitness
+                        self._evaluate_fitness,
+                        getattr(self.problem, "transport_matrix", None)
                     )
                     
                     opt_res = ChromosomeDecoder.decode(
                         optimized_chrom, self.batches, self.jobs_dict,
-                        self.problem.workstations, self.problem.setup_times, self.problem.setup_costs
+                        self.problem.workstations, self.problem.setup_times, self.problem.setup_costs,
+                        getattr(self.problem, "transport_matrix", None)
                     )
+
                     opt_fit = self._evaluate_fitness(opt_res)
                     
                     if opt_fit < best_fit:
@@ -318,7 +389,8 @@ class HFGA_TS:
         # Final decode of the best chromosome to get full schedule
         best_schedule_result = ChromosomeDecoder.decode(
             best_chrom, self.batches, self.jobs_dict,
-            self.problem.workstations, self.problem.setup_times, self.problem.setup_costs
+            self.problem.workstations, self.problem.setup_times, self.problem.setup_costs,
+            getattr(self.problem, "transport_matrix", None)
         )
         
         return best_schedule_result, best_chrom, history

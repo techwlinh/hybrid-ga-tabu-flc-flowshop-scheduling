@@ -18,27 +18,84 @@ class SMTGanttChart:
     def plot_interactive_gantt(
         result: ScheduleResult,
         jobs_dict: Dict[int, Job],
-        workstations: List[Workstation]
+        workstations: List[Workstation],
+        transport_matrix: np.ndarray = None,
+        max_time_scale: float = None
     ) -> go.Figure:
         """
         Creates an interactive Plotly Gantt chart.
-        - Rows: Grouped by Workstation and Machine ID.
-        - Color: Distinct colors for each Job, and gray pattern/color for Setup activities.
+        - Rows: Grouped by Workstation and Machine ID using hierarchical multi-category y-axis.
+        - Color: Distinct colors for each Job, gray for Setup activities, and light blue for Transportation transit.
         - Hover: Displays job IDs, batch details, quantities, priority, wait times, and setup cost/time.
         """
         df_entries = []
         num_workstations = len(workstations)
         
         # Color mapping for jobs
-        # Create a set of distinct colors for jobs and add gray for setups
         unique_jobs = list(jobs_dict.keys())
-        # Generate color scale
         colors = px.colors.qualitative.Alphabet
         job_colors = {job_id: colors[i % len(colors)] for i, job_id in enumerate(unique_jobs)}
         
+        # Pre-add transparent dummy entries for all machines to ensure they are visible even if idle
+        for ws in workstations:
+            for mach in ws.machines:
+                machine_label = f"{ws.name} - Machine {mach.id+1}"
+                df_entries.append({
+                    "Machine": machine_label,
+                    "Start": SMTGanttChart._time_to_dt(0.0),
+                    "Finish": SMTGanttChart._time_to_dt(0.0),
+                    "Activity": "Idle/Non-allocated",
+                    "Job ID": "N/A",
+                    "Batch ID": "N/A",
+                    "Type": "Idle",
+                    "Quantity": 0,
+                    "Priority": "N/A",
+                    "Due Date": "N/A",
+                    "Tardiness": "N/A",
+                    "Setup Time": "N/A",
+                    "Setup Cost": "N/A",
+                    "Waiting Time": "N/A",
+                    "Color": "rgba(0,0,0,0)"
+                })
+                
+        # Group entries by batch to track completion times of previous workstations for transit calculation
+        batch_runs = {}
+        for entry in result.entries:
+            batch_runs.setdefault(entry.batch_id, []).append(entry)
+        for b_id in batch_runs:
+            batch_runs[b_id].sort(key=lambda x: x.workstation_id)
+            
         for entry in result.entries:
             job = jobs_dict[entry.job_id]
-            machine_label = f"WS {entry.workstation_id+1} - Machine {entry.machine_id+1}"
+            ws = workstations[entry.workstation_id]
+            mach = ws.machines[entry.machine_id]
+            machine_label = f"{ws.name} - Machine {mach.id+1}"
+            
+            # 0. Add Transportation Entry (if stage w > 0)
+            if entry.workstation_id > 0:
+                runs = batch_runs.get(entry.batch_id, [])
+                prev_run = next((r for r in runs if r.workstation_id == entry.workstation_id - 1), None)
+                if prev_run is not None:
+                    prev_stage_end = prev_run.end_time
+                    t_time = transport_matrix[entry.workstation_id - 1, entry.workstation_id] if transport_matrix is not None else 10.0
+                    if t_time > 0:
+                        df_entries.append({
+                            "Machine": machine_label,
+                            "Start": SMTGanttChart._time_to_dt(prev_stage_end),
+                            "Finish": SMTGanttChart._time_to_dt(prev_stage_end + t_time),
+                            "Activity": f"Job {entry.job_id} Transit",
+                            "Job ID": str(entry.job_id),
+                            "Batch ID": entry.batch_id,
+                            "Type": "Transportation",
+                            "Quantity": int(job.quantity),
+                            "Priority": str(job.priority),
+                            "Due Date": f"{job.due_date:.1f} min",
+                            "Tardiness": "N/A",
+                            "Setup Time": "N/A",
+                            "Setup Cost": "N/A",
+                            "Waiting Time": "N/A",
+                            "Color": "#38BDF8"  # Light blue for transport transit
+                        })
             
             # 1. Add Setup Entry (if setup_time > 0)
             if entry.setup_time > 0:
@@ -58,11 +115,10 @@ class SMTGanttChart:
                     "Setup Time": f"{entry.setup_time:.1f} min",
                     "Setup Cost": f"${entry.setup_cost:.1f}",
                     "Waiting Time": f"{entry.waiting_time:.1f} min",
-                    "Color": "#94A3B8"  # Slate/Gray for setups
+                    "Color": "#94A3B8"
                 })
                 
             # 2. Add Processing Entry
-            # Calculate batch tardiness if it is the final workstation
             tardiness = 0.0
             if entry.workstation_id == num_workstations - 1:
                 tardiness = max(0.0, entry.end_time - job.due_date)
@@ -87,27 +143,28 @@ class SMTGanttChart:
 
         if not df_entries:
             return go.Figure()
-
-        # Sort entries by Workstation and Machine label for clean Gantt rows
-        df_entries.sort(key=lambda x: x["Machine"])
-        
-        # Build custom timeline chart
+            
+        # Build colors discrete map
+        color_discrete_map = {
+            "Idle/Non-allocated": "rgba(0,0,0,0)",
+            "Machine Setup/Changeover": "#94A3B8"
+        }
+        for jid in unique_jobs:
+            color_discrete_map[f"Job {jid}"] = job_colors[jid]
+            color_discrete_map[f"Job {jid} Transit"] = "#38BDF8"
+            
+        # Build timeline chart
         fig = px.timeline(
             df_entries,
             x_start="Start",
             x_end="Finish",
             y="Machine",
             color="Activity",
-            color_discrete_map={
-                "Machine Setup/Changeover": "#94A3B8",
-                **{f"Job {jid}": job_colors[jid] for jid in unique_jobs}
-            },
+            color_discrete_map=color_discrete_map,
             title="Interactive HFS Gantt Chart (Parallel SMT Lines)"
         )
         
         # Configure layout and custom tooltip template
-        fig.update_yaxes(categoryorder="array", categoryarray=sorted(list(set(x["Machine"] for x in df_entries))))
-        
         hover_template = (
             "<b>Activity:</b> %{customdata[0]}<br>"
             "<b>Batch ID:</b> %{customdata[1]}<br>"
@@ -125,7 +182,6 @@ class SMTGanttChart:
         
         # Package custom data fields for tooltips
         for trace in fig.data:
-            # Match elements in trace
             trace_activity = trace.name
             trace_entries = [e for e in df_entries if e["Activity"] == trace_activity]
             
@@ -146,15 +202,50 @@ class SMTGanttChart:
             trace.customdata = custom_data
             trace.hovertemplate = hover_template
 
+        # Multi-category y-axis grouping mapping
+        machine_to_multicategory = {}
+        for ws in workstations:
+            for mach in ws.machines:
+                key = f"{ws.name} - Machine {mach.id+1}"
+                machine_to_multicategory[key] = (ws.name, f"M{mach.id+1}")
+                
+        # Group and configure category order
+        all_workstations_list = []
+        all_machines_list = []
+        for ws in reversed(workstations):
+            for mach in reversed(ws.machines):
+                all_workstations_list.append(ws.name)
+                all_machines_list.append(f"M{mach.id+1}")
+                
+        # Convert trace.y to hierarchical list of lists
+        for trace in fig.data:
+            ws_list = []
+            mach_list = []
+            for y_val in trace.y:
+                ws_name, mach_name = machine_to_multicategory.get(y_val, ("N/A", "N/A"))
+                ws_list.append(ws_name)
+                mach_list.append(mach_name)
+            trace.y = [ws_list, mach_list]
+            
+        fig.update_yaxes(
+            categoryorder="array",
+            categoryarray=[all_workstations_list, all_machines_list]
+        )
+
         fig.update_layout(
             xaxis_title="Timeline (HH:MM:SS from Reference Day 1)",
-            yaxis_title="SMT Workstation & Machine Lines",
+            yaxis_title="SMT Workstations & Machines",
             hoverlabel=dict(bgcolor="white", font_size=11, font_family="JetBrains Mono"),
             legend_title_text="Job Batches & Changeovers",
-            margin=dict(l=150, r=20, t=50, b=50),
+            margin=dict(l=220, r=20, t=50, b=50),
             height=600
         )
         
+        # Add range slider and adjust initial view limits if specified
+        fig.update_xaxes(rangeslider_visible=True)
+        if max_time_scale is not None:
+            fig.update_xaxes(range=[SMTGanttChart._time_to_dt(0.0), SMTGanttChart._time_to_dt(max_time_scale)])
+            
         return fig
 
     @staticmethod

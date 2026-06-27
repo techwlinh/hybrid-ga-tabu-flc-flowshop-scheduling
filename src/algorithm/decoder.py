@@ -16,7 +16,8 @@ class ChromosomeDecoder:
         jobs_dict: Dict[int, Job],
         workstations: List[Workstation],
         setup_times: np.ndarray,
-        setup_costs: np.ndarray
+        setup_costs: np.ndarray,
+        transport_matrix: np.ndarray = None
     ) -> ScheduleResult:
         """
         Translates a chromosome of shape (2 * N_batches) into a ScheduleResult.
@@ -58,7 +59,12 @@ class ChromosomeDecoder:
         batch_completion_times = {b.id: {} for b in batches}
         
         schedule_entries = []
-        transport_time = SMT_PARAMETERS.get("Default_Transport_Time", 10.0)
+        
+        # Fallback to scalar transport time if transport_matrix is None or empty/incorrect size
+        if transport_matrix is None or getattr(transport_matrix, "shape", None) != (num_workstations, num_workstations):
+            scalar_t = SMT_PARAMETERS.get("Default_Transport_Time", 10.0)
+            transport_matrix = np.full((num_workstations, num_workstations), scalar_t)
+            np.fill_diagonal(transport_matrix, 0.0)
         
         # 3. Schedule each batch sequentially through all workstations (stages)
         for route_info in sorted_routing:
@@ -84,8 +90,9 @@ class ChromosomeDecoder:
                     # Stage 0: Material arrival ready time
                     ready_time = job.material_arrival_time
                 else:
-                    # Stage w > 0: Completion at stage w-1 plus transport transit time
-                    ready_time = prev_stage_end + transport_time
+                    # Stage w > 0: Completion at stage w-1 plus transport transit time from w-1 to w
+                    ready_time = prev_stage_end + transport_matrix[w - 1, w]
+
                     
                 # Machine clock
                 curr_mach_time = machine_clocks[(w, selected_machine_id)]

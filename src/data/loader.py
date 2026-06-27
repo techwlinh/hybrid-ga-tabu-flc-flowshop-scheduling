@@ -43,9 +43,22 @@ class SMTDataLoader:
         workstations = []
         machines_per_ws = SMT_PARAMETERS.get("Default_Machines_Per_Workstation", {})
         
+        SMT_LCD_STEPS = [
+            "SMT Solder Paste Printing",
+            "Solder Paste Inspection (SPI)",
+            "High-Speed Chip Mounting",
+            "Multi-Functional IC Mounting",
+            "Reflow Soldering Oven",
+            "AOI Optical Inspection",
+            "LCD Panel Attachment",
+            "FPC Bonding",
+            "Final Function Testing"
+        ]
+        
         for w in range(num_workstations):
             num_machines = machines_per_ws.get(w, 2) # Default to 2 if not configured
-            ws = Workstation(id=w, name=f"Workstation {w+1}")
+            ws_name = SMT_LCD_STEPS[w] if w < len(SMT_LCD_STEPS) else f"SMT Stage {w+1}"
+            ws = Workstation(id=w, name=ws_name)
             for m in range(num_machines):
                 mach = Machine(id=m, workstation_id=w, name=f"W{w+1}_M{m+1}")
                 ws.machines.append(mach)
@@ -60,8 +73,8 @@ class SMTDataLoader:
             # Quantity Q_j in [50, 500] units
             quantity = int(prng.randint(50, 501))
             
-            # Priority group: 1 (highest), 2 (medium), 3 (lowest)
-            priority = int(prng.choice([1, 2, 3], p=[0.2, 0.5, 0.3]))
+            # Priority group: 1 (highest), 2 (medium), 3 (low), 4 (lowest)
+            priority = int(prng.choice([1, 2, 3, 4], p=[0.1, 0.4, 0.3, 0.2]))
             
             # Material arrival time s_j: uniform in [0, 0.1 * due_date]
             due_date = due_dates[j]
@@ -101,9 +114,17 @@ class SMTDataLoader:
         # setup_cost[j, h, w] = setup_times[j, h, w] * factor
         setup_costs = setup_times * setup_cost_factor
         
+        # 6. Generate transport matrix (initially random, e.g. between 5.0 and 15.0)
+        # Shape (num_workstations, num_workstations)
+        transport_matrix = prng.uniform(5.0, 15.0, size=(num_workstations, num_workstations))
+        transport_matrix = np.round(transport_matrix, 1)
+        np.fill_diagonal(transport_matrix, 0.0)
+        
         return ProblemInstance(
             jobs=jobs,
             workstations=workstations,
             setup_times=setup_times,
-            setup_costs=setup_costs
+            setup_costs=setup_costs,
+            transport_matrix=transport_matrix
         )
+

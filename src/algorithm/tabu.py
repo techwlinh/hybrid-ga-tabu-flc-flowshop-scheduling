@@ -20,8 +20,9 @@ class TabuSearch:
         workstations: List[Any],
         setup_times: np.ndarray,
         setup_costs: np.ndarray,
-        decode_fn: Callable[[np.ndarray, List[Any], Dict[int, Any], List[Any], np.ndarray, np.ndarray], Any],
-        evaluate_fn: Callable[[Any], float]
+        decode_fn: Callable,
+        evaluate_fn: Callable[[Any], float],
+        transport_matrix: np.ndarray = None
     ) -> np.ndarray:
         """
         Performs local search on the sequence genes (first half of the chromosome).
@@ -34,6 +35,7 @@ class TabuSearch:
             setup_costs: setup costs matrix
             decode_fn: function mapping chromosome to ScheduleResult
             evaluate_fn: function mapping ScheduleResult to a scalar fitness value (to minimize)
+            transport_matrix: optional transport times matrix between workstations
             
         Returns:
             best_chromosome: Enriched/optimized chromosome
@@ -44,7 +46,7 @@ class TabuSearch:
             
         # Copy chromosome
         curr_chrom = initial_chromosome.copy()
-        curr_res = decode_fn(curr_chrom, batches, jobs_dict, workstations, setup_times, setup_costs)
+        curr_res = decode_fn(curr_chrom, batches, jobs_dict, workstations, setup_times, setup_costs, transport_matrix)
         curr_fit = evaluate_fn(curr_res)
         
         best_chrom = curr_chrom.copy()
@@ -86,8 +88,9 @@ class TabuSearch:
                     move_repr = ("insert", idx1, idx2)
                     
                 # Decode and evaluate
-                res = decode_fn(candidate_chrom, batches, jobs_dict, workstations, setup_times, setup_costs)
+                res = decode_fn(candidate_chrom, batches, jobs_dict, workstations, setup_times, setup_costs, transport_matrix)
                 fit = evaluate_fn(res)
+
                 
                 candidates.append((candidate_chrom, fit, move_repr))
                 

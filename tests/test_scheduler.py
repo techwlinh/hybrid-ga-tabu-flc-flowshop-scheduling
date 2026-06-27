@@ -29,7 +29,7 @@ def test_data_loading(sample_problem):
     # Check that job quantities are generated in range
     for job in jobs:
         assert 50 <= job.quantity <= 500
-        assert job.priority in [1, 2, 3]
+        assert job.priority in [1, 2, 3, 4]
         assert len(job.eligible_machines) == 5
         assert len(job.unit_processing_times) == 5
 
@@ -80,7 +80,8 @@ def test_decoder_hfs_constraints(sample_problem):
     # Decode
     res = ChromosomeDecoder.decode(
         chromosome, batches, jobs_dict,
-        sample_problem.workstations, sample_problem.setup_times, sample_problem.setup_costs
+        sample_problem.workstations, sample_problem.setup_times, sample_problem.setup_costs,
+        sample_problem.transport_matrix
     )
     
     assert res.makespan > 0
@@ -91,9 +92,7 @@ def test_decoder_hfs_constraints(sample_problem):
     for entry in res.entries:
         batch_entries.setdefault(entry.batch_id, []).append(entry)
         
-    transport_time = SMT_PARAMETERS["Default_Transport_Time"]
-    
-    # Check that for each batch, stage w+1 start_time is >= stage w end_time + transport_time
+    # Check that for each batch, stage w+1 start_time is >= stage w end_time + transport_time from matrix
     for b_id, entries in batch_entries.items():
         # Sort by workstation id
         entries.sort(key=lambda x: x.workstation_id)
@@ -104,11 +103,10 @@ def test_decoder_hfs_constraints(sample_problem):
             
             assert next_stage.workstation_id == curr_stage.workstation_id + 1
             # Next stage start_time must be >= current stage end_time + transport_time
-            # Wait, actually setup_start_time of next stage must be >= current_stage.end_time + transport_time.
-            # Next stage start_time includes setup_time, so start_time = setup_start_time + setup_time.
             # So: next_stage.start_time - next_stage.setup_time >= curr_stage.end_time + transport_time
             setup_start = next_stage.start_time - next_stage.setup_time
-            assert setup_start >= curr_stage.end_time + transport_time - 1e-6
+            t_time = sample_problem.transport_matrix[curr_stage.workstation_id, next_stage.workstation_id]
+            assert setup_start >= curr_stage.end_time + t_time - 1e-6
 
 def test_tabu_search(sample_problem):
     """Verifies that Tabu Search optimization performs successfully without errors."""
@@ -126,10 +124,10 @@ def test_tabu_search(sample_problem):
     optimized = ts.optimize(
         chromosome, batches, jobs_dict,
         sample_problem.workstations, sample_problem.setup_times, sample_problem.setup_costs,
-        ChromosomeDecoder.decode, ga_engine._evaluate_fitness
+        ChromosomeDecoder.decode, ga_engine._evaluate_fitness,
+        sample_problem.transport_matrix
     )
     
     assert len(optimized) == len(chromosome)
     # The chromosome should be modified by the local search moves
     assert not np.array_equal(optimized, chromosome)
-

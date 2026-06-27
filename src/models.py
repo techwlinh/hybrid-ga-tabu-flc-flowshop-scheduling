@@ -70,4 +70,6 @@ class ProblemInstance:
     workstations: List[Workstation]
     setup_times: np.ndarray
     setup_costs: np.ndarray
+    transport_matrix: np.ndarray = None
+
 
