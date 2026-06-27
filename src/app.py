@@ -6,8 +6,7 @@ import importlib
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Reload local modules to prevent Streamlit from caching old versions
-# We only reload the visualization module to avoid breaking class identity for multiprocessing pickles
-for module_name in ["src.visualization.gantt"]:
+for module_name in ["src.visualization.gantt", "src.ui.tabs"]:
     if module_name in sys.modules:
         importlib.reload(sys.modules[module_name])
 
@@ -23,8 +22,8 @@ from src.ui.sidebar import render_sidebar_controls
 from src.ui.tabs import (
     render_dataset_tab,
     render_optimization_tab,
-    render_gantt_tab,
-    render_explainer_tab,
+    render_schedule_results_tab,
+    render_performance_comparison_tab,
 )
 
 # Page Configuration for Premium Design
@@ -190,12 +189,12 @@ def main():
     GA_PARAMETERS.Use_Parallel_Execution = params["use_parallel"]
 
     # Tabs layout
-    tab_data, tab_opt, tab_gantt, tab_explain = st.tabs(
+    tab_data, tab_opt, tab_sched, tab_compare = st.tabs(
         [
             "📊 Dataset Exploration",
             "⚡ Optimization Run",
-            "📈 Interactive Gantt Chart",
-            "🧠 Solution Explainer",
+            "📅 Scheduling Results",
+            "📈 Performance Comparison",
         ]
     )
 
@@ -205,11 +204,11 @@ def main():
     with tab_opt:
         render_optimization_tab(problem_instance, params["max_gens"])
 
-    with tab_gantt:
-        render_gantt_tab(problem_instance)
+    with tab_sched:
+        render_schedule_results_tab(problem_instance)
 
-    with tab_explain:
-        render_explainer_tab(problem_instance)
+    with tab_compare:
+        render_performance_comparison_tab(problem_instance)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ from src.config import GA_PARAMETERS, SMT_PARAMETERS
 
 @pytest.fixture
 def sample_problem():
-    file_path = "refs/Antonella Branda/Problems/problem1.mat"
+    file_path = "data_versions/raw/problem1.mat"
     return SMTDataLoader.load_mat_problem(file_path, seed=42)
 
 def test_data_loading(sample_problem):

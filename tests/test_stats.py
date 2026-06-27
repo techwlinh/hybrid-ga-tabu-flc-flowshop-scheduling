@@ -15,7 +15,7 @@ from src.visualization.stats import (
 
 @pytest.fixture
 def sample_problem():
-    file_path = "refs/Antonella Branda/Problems/problem1.mat"
+    file_path = "data_versions/raw/problem1.mat"
     return SMTDataLoader.load_mat_problem(file_path, seed=42)
 
 def test_stats_computation(sample_problem):

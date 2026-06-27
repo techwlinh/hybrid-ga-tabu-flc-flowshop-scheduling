@@ -132,9 +132,11 @@ class HFGA_TS:
     for optimizing SMT scheduling.
     """
 
-    def __init__(self, problem: ProblemInstance):
+    def __init__(self, problem: ProblemInstance, use_flc: bool = True, use_tabu: bool = True):
         self.problem = problem
         self.jobs_dict = {job.id: job for job in problem.jobs}
+        self.use_flc = use_flc
+        self.use_tabu = use_tabu
 
         # Load parameters
         self.splitting_threshold = GA_PARAMETERS.Threshold_of_Batch_Splitting
@@ -351,7 +353,11 @@ class HFGA_TS:
                 prev_avg_fit = curr_avg_fit
 
                 # FLC adjustment of Pc and Pm
-                pc, pm = self.flc.evaluate(norm_diversity, improvement)
+                if self.use_flc:
+                    pc, pm = self.flc.evaluate(norm_diversity, improvement)
+                else:
+                    pc = GA_PARAMETERS.Initial_Crossover_Rate
+                    pm = GA_PARAMETERS.Initial_Mutation_Rate
 
                 # Elitism: retain top performers
                 num_elites = int(self.pop_size * self.elitism_rate)
@@ -397,39 +403,40 @@ class HFGA_TS:
 
                 # 3. Tabu Search activation if evolution stalls
                 if stall_counter >= self.stall_limit:
-                    # Run Tabu Search to optimize the current best chromosome
-                    optimized_chrom = self.ts.optimize(
-                        best_chrom,
-                        self.batches,
-                        self.jobs_dict,
-                        self.problem.workstations,
-                        self.problem.setup_times,
-                        self.problem.setup_costs,
-                        ChromosomeDecoder.decode,
-                        self._evaluate_fitness,
-                        getattr(self.problem, "transport_matrix", None),
-                    )
+                    if self.use_tabu:
+                        # Run Tabu Search to optimize the current best chromosome
+                        optimized_chrom = self.ts.optimize(
+                            best_chrom,
+                            self.batches,
+                            self.jobs_dict,
+                            self.problem.workstations,
+                            self.problem.setup_times,
+                            self.problem.setup_costs,
+                            ChromosomeDecoder.decode,
+                            self._evaluate_fitness,
+                            getattr(self.problem, "transport_matrix", None),
+                        )
 
-                    opt_res = ChromosomeDecoder.decode(
-                        optimized_chrom,
-                        self.batches,
-                        self.jobs_dict,
-                        self.problem.workstations,
-                        self.problem.setup_times,
-                        self.problem.setup_costs,
-                        getattr(self.problem, "transport_matrix", None),
-                    )
+                        opt_res = ChromosomeDecoder.decode(
+                            optimized_chrom,
+                            self.batches,
+                            self.jobs_dict,
+                            self.problem.workstations,
+                            self.problem.setup_times,
+                            self.problem.setup_costs,
+                            getattr(self.problem, "transport_matrix", None),
+                        )
 
-                    opt_fit = self._evaluate_fitness(opt_res)
+                        opt_fit = self._evaluate_fitness(opt_res)
 
-                    if opt_fit < best_fit:
-                        best_fit = opt_fit
-                        best_chrom = optimized_chrom.copy()
+                        if opt_fit < best_fit:
+                            best_fit = opt_fit
+                            best_chrom = optimized_chrom.copy()
 
-                        # Inject back into population (replace the worst individual)
-                        worst_idx = np.argmax(fitnesses)
-                        population[worst_idx] = optimized_chrom.copy()
-                        fitnesses[worst_idx] = opt_fit
+                            # Inject back into population (replace the worst individual)
+                            worst_idx = np.argmax(fitnesses)
+                            population[worst_idx] = optimized_chrom.copy()
+                            fitnesses[worst_idx] = opt_fit
 
                     stall_counter = 0  # Reset counter after local search
 
