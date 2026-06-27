@@ -18,7 +18,7 @@ def get_saved_versions() -> List[str]:
 
 def get_sorted_problem_files() -> List[str]:
     """Scans refs/Antonella Branda/Problems and returns sorted file paths."""
-    folder = "refs/Antonella Branda/Problems"
+    folder = "data_versions/raw"
     if not os.path.exists(folder):
         return []
     files = [f for f in os.listdir(folder) if f.endswith(".mat")]
