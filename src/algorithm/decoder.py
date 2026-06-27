@@ -71,7 +71,7 @@ class ChromosomeDecoder:
             num_workstations,
             num_workstations,
         ):
-            scalar_t = SMT_PARAMETERS.get("Default_Transport_Time", 10.0)
+            scalar_t = SMT_PARAMETERS.Default_Transport_Time
             transport_matrix = np.full((num_workstations, num_workstations), scalar_t)
             np.fill_diagonal(transport_matrix, 0.0)
 

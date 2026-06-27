@@ -53,11 +53,11 @@ def main():
     print(f"Loading Problem File: {args.file}")
 
     # Configure parameters from arguments
-    GA_PARAMETERS["Population_Size"] = args.pop
-    GA_PARAMETERS["Maximum_Generation"] = args.gen
-    GA_PARAMETERS["Threshold_of_Batch_Splitting"] = args.split
-    SMT_PARAMETERS["Default_Transport_Time"] = args.transport
-    GA_PARAMETERS["Use_Parallel_Execution"] = not args.sequential
+    GA_PARAMETERS.Population_Size = args.pop
+    GA_PARAMETERS.Maximum_Generation = args.gen
+    GA_PARAMETERS.Threshold_of_Batch_Splitting = args.split
+    SMT_PARAMETERS.Default_Transport_Time = args.transport
+    GA_PARAMETERS.Use_Parallel_Execution = not args.sequential
 
     # 1. Load Problem
     try:

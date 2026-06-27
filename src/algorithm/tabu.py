@@ -9,8 +9,8 @@ class TabuSearch:
     of the best Genetic Algorithm chromosomes to escape local optima.
     """
     def __init__(self):
-        self.max_iter = GA_PARAMETERS["Max_Iterations_of_Tabu_Search"]
-        self.tabu_size = GA_PARAMETERS["Tabu_List_Size"]
+        self.max_iter = GA_PARAMETERS.Max_Iterations_of_Tabu_Search
+        self.tabu_size = GA_PARAMETERS.Tabu_List_Size
 
     def optimize(
         self,

@@ -10,31 +10,31 @@ def render_sidebar_controls() -> Dict[str, Any]:
         "Population Size",
         min_value=10,
         max_value=200,
-        value=int(GA_PARAMETERS["Population_Size"]),
+        value=int(GA_PARAMETERS.Population_Size),
     )
     max_gens = st.sidebar.slider(
         "Max Generations",
         min_value=50,
         max_value=2000,
-        value=int(GA_PARAMETERS["Maximum_Generation"]),
+        value=int(GA_PARAMETERS.Maximum_Generation),
     )
     elitism_rate = st.sidebar.slider(
         "Elitism Rate",
         min_value=0.01,
         max_value=0.3,
-        value=float(GA_PARAMETERS["Elitism_Rate"]),
+        value=float(GA_PARAMETERS.Elitism_Rate),
     )
     stall_limit = st.sidebar.slider(
         "Stall Limit (for TS)",
         min_value=10,
         max_value=200,
-        value=int(GA_PARAMETERS["No_Improvement_Limit"]),
+        value=int(GA_PARAMETERS.No_Improvement_Limit),
     )
     split_threshold = st.sidebar.slider(
         "Batch Splitting Threshold (T)",
         min_value=50,
         max_value=500,
-        value=int(GA_PARAMETERS["Threshold_of_Batch_Splitting"]),
+        value=int(GA_PARAMETERS.Threshold_of_Batch_Splitting),
     )
 
     st.sidebar.subheader("FLC Bounds")
@@ -43,8 +43,8 @@ def render_sidebar_controls() -> Dict[str, Any]:
         min_value=0.2,
         max_value=1.0,
         value=(
-            float(GA_PARAMETERS["Crossover_Rate_Bounds"][0]),
-            float(GA_PARAMETERS["Crossover_Rate_Bounds"][1]),
+            float(GA_PARAMETERS.Crossover_Rate_Bounds[0]),
+            float(GA_PARAMETERS.Crossover_Rate_Bounds[1]),
         ),
     )
     pm_min, pm_max = st.sidebar.slider(
@@ -52,8 +52,8 @@ def render_sidebar_controls() -> Dict[str, Any]:
         min_value=0.01,
         max_value=0.4,
         value=(
-            float(GA_PARAMETERS["Mutation_Rate_Bounds"][0]),
-            float(GA_PARAMETERS["Mutation_Rate_Bounds"][1]),
+            float(GA_PARAMETERS.Mutation_Rate_Bounds[0]),
+            float(GA_PARAMETERS.Mutation_Rate_Bounds[1]),
         ),
     )
 
@@ -62,19 +62,19 @@ def render_sidebar_controls() -> Dict[str, Any]:
         "TS Max Iterations",
         min_value=5,
         max_value=100,
-        value=int(GA_PARAMETERS["Max_Iterations_of_Tabu_Search"]),
+        value=int(GA_PARAMETERS.Max_Iterations_of_Tabu_Search),
     )
     tabu_size = st.sidebar.slider(
         "Tabu List Size",
         min_value=5,
         max_value=50,
-        value=int(GA_PARAMETERS["Tabu_List_Size"]),
+        value=int(GA_PARAMETERS.Tabu_List_Size),
     )
 
     st.sidebar.subheader("Performance Optimization")
     use_parallel = st.sidebar.checkbox(
         "Run in Parallel (Multiprocessing)",
-        value=bool(GA_PARAMETERS["Use_Parallel_Execution"]),
+        value=bool(GA_PARAMETERS.Use_Parallel_Execution),
     )
 
     return {

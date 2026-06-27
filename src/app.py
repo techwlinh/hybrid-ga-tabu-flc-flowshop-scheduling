@@ -178,16 +178,16 @@ def main():
 
     # Render sidebar parameters and update global config
     params = render_sidebar_controls()
-    GA_PARAMETERS["Population_Size"] = params["pop_size"]
-    GA_PARAMETERS["Maximum_Generation"] = params["max_gens"]
-    GA_PARAMETERS["Elitism_Rate"] = params["elitism_rate"]
-    GA_PARAMETERS["No_Improvement_Limit"] = params["stall_limit"]
-    GA_PARAMETERS["Threshold_of_Batch_Splitting"] = params["split_threshold"]
-    GA_PARAMETERS["Crossover_Rate_Bounds"] = params["pc_bounds"]
-    GA_PARAMETERS["Mutation_Rate_Bounds"] = params["pm_bounds"]
-    GA_PARAMETERS["Max_Iterations_of_Tabu_Search"] = params["ts_iter"]
-    GA_PARAMETERS["Tabu_List_Size"] = params["tabu_size"]
-    GA_PARAMETERS["Use_Parallel_Execution"] = params["use_parallel"]
+    GA_PARAMETERS.Population_Size = params["pop_size"]
+    GA_PARAMETERS.Maximum_Generation = params["max_gens"]
+    GA_PARAMETERS.Elitism_Rate = params["elitism_rate"]
+    GA_PARAMETERS.No_Improvement_Limit = params["stall_limit"]
+    GA_PARAMETERS.Threshold_of_Batch_Splitting = params["split_threshold"]
+    GA_PARAMETERS.Crossover_Rate_Bounds = params["pc_bounds"]
+    GA_PARAMETERS.Mutation_Rate_Bounds = params["pm_bounds"]
+    GA_PARAMETERS.Max_Iterations_of_Tabu_Search = params["ts_iter"]
+    GA_PARAMETERS.Tabu_List_Size = params["tabu_size"]
+    GA_PARAMETERS.Use_Parallel_Execution = params["use_parallel"]
 
     # Tabs layout
     tab_data, tab_opt, tab_gantt, tab_explain = st.tabs(

@@ -59,8 +59,8 @@ def test_flc_bounds():
         (0.2, -0.2), # Random case
     ]
     
-    pc_min, pc_max = GA_PARAMETERS["Crossover_Rate_Bounds"]
-    pm_min, pm_max = GA_PARAMETERS["Mutation_Rate_Bounds"]
+    pc_min, pc_max = GA_PARAMETERS.Crossover_Rate_Bounds
+    pm_min, pm_max = GA_PARAMETERS.Mutation_Rate_Bounds
     
     for div, imp in test_cases:
         pc, pm = flc.evaluate(div, imp)

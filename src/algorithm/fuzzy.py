@@ -9,8 +9,8 @@ class FuzzyLogicController:
     """
     def __init__(self):
         # 1. Define bounds for input and output variables
-        self.pc_bounds = GA_PARAMETERS["Crossover_Rate_Bounds"]
-        self.pm_bounds = GA_PARAMETERS["Mutation_Rate_Bounds"]
+        self.pc_bounds = GA_PARAMETERS.Crossover_Rate_Bounds
+        self.pm_bounds = GA_PARAMETERS.Mutation_Rate_Bounds
         
         # 2. Define the membership function parameters (Triangular [a, b, c])
         # Input 1: Diversity (normalized to [0, 1])

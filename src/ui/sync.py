@@ -65,7 +65,7 @@ def sync_workstations(edited_df: pd.DataFrame, problem: Any):
         new_setup_costs[:, :, :min_ws] = problem.setup_costs[:, :, :min_ws]
 
         if num_ws > old_num_ws:
-            factor = SMT_PARAMETERS.get("Setup_Cost_Factor", 1.5)
+            factor = SMT_PARAMETERS.Setup_Cost_Factor
             for w in range(old_num_ws, num_ws):
                 rand_s = np.random.uniform(5.0, 25.0, size=(N, N))
                 np.fill_diagonal(rand_s, 0.0)

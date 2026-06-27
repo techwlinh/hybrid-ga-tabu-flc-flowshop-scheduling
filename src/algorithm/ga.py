@@ -137,13 +137,13 @@ class HFGA_TS:
         self.jobs_dict = {job.id: job for job in problem.jobs}
 
         # Load parameters
-        self.splitting_threshold = GA_PARAMETERS["Threshold_of_Batch_Splitting"]
-        self.pop_size = GA_PARAMETERS["Population_Size"]
-        self.max_generations = GA_PARAMETERS["Maximum_Generation"]
-        self.elitism_rate = GA_PARAMETERS["Elitism_Rate"]
-        self.stall_limit = GA_PARAMETERS["No_Improvement_Limit"]
-        self.time_limit = GA_PARAMETERS["Time_Limitation_Seconds"]
-        self.use_parallel = GA_PARAMETERS.get("Use_Parallel_Execution", True)
+        self.splitting_threshold = GA_PARAMETERS.Threshold_of_Batch_Splitting
+        self.pop_size = GA_PARAMETERS.Population_Size
+        self.max_generations = GA_PARAMETERS.Maximum_Generation
+        self.elitism_rate = GA_PARAMETERS.Elitism_Rate
+        self.stall_limit = GA_PARAMETERS.No_Improvement_Limit
+        self.time_limit = GA_PARAMETERS.Time_Limitation_Seconds
+        self.use_parallel = GA_PARAMETERS.Use_Parallel_Execution
 
         # Initialize sub-modules
         self.flc = FuzzyLogicController()
@@ -326,8 +326,8 @@ class HFGA_TS:
 
             # Stall and FLC trackers
             stall_counter = 0
-            pc = GA_PARAMETERS["Initial_Crossover_Rate"]
-            pm = GA_PARAMETERS["Initial_Mutation_Rate"]
+            pc = GA_PARAMETERS.Initial_Crossover_Rate
+            pm = GA_PARAMETERS.Initial_Mutation_Rate
 
             # Track historical average fitnesses for FLC improvement input
             prev_avg_fit = np.mean(fitnesses)
