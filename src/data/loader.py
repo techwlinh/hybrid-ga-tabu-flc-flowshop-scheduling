@@ -78,7 +78,7 @@ class SMTDataLoader:
 
         for j in range(num_jobs):
             # Quantity Q_j in [50, 500] units
-            quantity = int(prng.randint(10, 70))
+            quantity = int(prng.randint(50, 200))
 
             # Priority group: 1 (highest), 2 (medium), 3 (low), 4 (lowest)
             priority = int(prng.choice([1, 2, 3, 4], p=[0.1, 0.4, 0.3, 0.2]))

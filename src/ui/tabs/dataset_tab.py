@@ -18,7 +18,7 @@ def render_dataset_tab(problem_instance: Any):
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Total Jobs (N)", len(jobs))
+        st.metric("Total Products (N)", len(jobs))
     with col2:
         st.metric("Total Workstations (M)", len(workstations))
     with col3:
@@ -76,7 +76,7 @@ def render_dataset_tab(problem_instance: Any):
     problem_instance.transport_matrix = edited_transport_df.values
 
     st.write(
-        "### Jobs Enriched Metadata (Scaled Quantities & Priorities & Eligibility)"
+        "### Products Enriched Metadata (Scaled Quantities & Priorities & Eligibility)"
     )
     # Construct columns for all machines in the system
     machine_columns = []
@@ -90,7 +90,7 @@ def render_dataset_tab(problem_instance: Any):
     jobs_data = []
     for job in jobs:
         row = {
-            "Job ID": job.id,
+            "Product ID": job.id,
             "Quantity (units)": job.quantity,
             "Priority Group": job.priority,
             "Material Arrival (min)": round(job.material_arrival_time, 2),
@@ -107,7 +107,7 @@ def render_dataset_tab(problem_instance: Any):
 
     # Build column configs
     col_config = {
-        "Job ID": st.column_config.NumberColumn(disabled=True),
+        "Product ID": st.column_config.NumberColumn(disabled=True),
         "Quantity (units)": st.column_config.NumberColumn(min_value=1, required=True),
         "Priority Group": st.column_config.SelectboxColumn(
             options=[1, 2, 3, 4], required=True
@@ -142,13 +142,13 @@ def render_dataset_tab(problem_instance: Any):
 
     if ws_select is not None:
         w_id = ws_select.id
-        job_ids = [f"Job {j.id}" for j in jobs]
+        product_ids = [f"Product {j.id}" for j in jobs]
 
         col_setup1, col_setup2 = st.columns(2)
         with col_setup1:
             st.write(f"**Setup Times (minutes) at {ws_select.name}**")
             setup_times_df = pd.DataFrame(
-                setup_times[:, :, w_id], index=job_ids, columns=job_ids
+                setup_times[:, :, w_id], index=product_ids, columns=product_ids
             )
             edited_setup_times = st.data_editor(
                 setup_times_df, use_container_width=True, key=f"setup_times_{w_id}"
@@ -158,12 +158,13 @@ def render_dataset_tab(problem_instance: Any):
         with col_setup2:
             st.write(f"**Setup Costs ($) at {ws_select.name}**")
             setup_costs_df = pd.DataFrame(
-                setup_costs[:, :, w_id], index=job_ids, columns=job_ids
+                setup_costs[:, :, w_id], index=product_ids, columns=product_ids
             )
             edited_setup_costs = st.data_editor(
                 setup_costs_df, use_container_width=True, key=f"setup_costs_{w_id}"
             )
             setup_costs[:, :, w_id] = edited_setup_costs.values
+
 
     # Save version section
     st.write("---")

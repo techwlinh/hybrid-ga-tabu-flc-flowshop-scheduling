@@ -1,0 +1,185 @@
+{
+    "dataset_name": "problem1",
+    "timestamp": "20260628_224134",
+    "number_of_runs": 1,
+    "parameters": {
+        "pop_size": 26,
+        "max_gens": 50,
+        "elitism_rate": 0.1,
+        "stall_limit": 100,
+        "split_threshold": 150,
+        "pc_bounds": [
+            0.5,
+            0.95
+        ],
+        "pm_bounds": [
+            0.05,
+            0.2
+        ],
+        "ts_iter": 30,
+        "tabu_size": 15,
+        "use_parallel": true
+    },
+    "results": {
+        "Heuristic (FCFS)": {
+            "best_run": {
+                "makespan": 49213.76233627206,
+                "total_tardiness": 143807.8021849738,
+                "total_tardy_units": 941,
+                "total_setup_cost": 1395.814242192436,
+                "total_setup_time": 930.5428281282908
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 49213.76233627206,
+                    "std": 0.0,
+                    "best": 49213.76233627206
+                },
+                "total_tardiness": {
+                    "mean": 143807.8021849738,
+                    "std": 0.0,
+                    "best": 143807.8021849738
+                },
+                "total_tardy_units": {
+                    "mean": 941.0,
+                    "std": 0.0,
+                    "best": 941.0
+                },
+                "setup_cost": {
+                    "mean": 1395.814242192436,
+                    "std": 0.0,
+                    "best": 1395.814242192436
+                },
+                "setup_time": {
+                    "mean": 930.5428281282908,
+                    "std": 0.0,
+                    "best": 930.5428281282908
+                },
+                "duration_seconds": {
+                    "mean": 0.038227081298828125,
+                    "std": 0.0
+                }
+            }
+        },
+        "Heuristic (EDD)": {
+            "best_run": {
+                "makespan": 50829.14297447299,
+                "total_tardiness": 139302.02256686913,
+                "total_tardy_units": 899,
+                "total_setup_cost": 1432.1646546937668,
+                "total_setup_time": 954.7764364625112
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 50829.14297447299,
+                    "std": 0.0,
+                    "best": 50829.14297447299
+                },
+                "total_tardiness": {
+                    "mean": 139302.02256686913,
+                    "std": 0.0,
+                    "best": 139302.02256686913
+                },
+                "total_tardy_units": {
+                    "mean": 899.0,
+                    "std": 0.0,
+                    "best": 899.0
+                },
+                "setup_cost": {
+                    "mean": 1432.1646546937668,
+                    "std": 0.0,
+                    "best": 1432.1646546937668
+                },
+                "setup_time": {
+                    "mean": 954.7764364625112,
+                    "std": 0.0,
+                    "best": 954.7764364625112
+                },
+                "duration_seconds": {
+                    "mean": 0.014569282531738281,
+                    "std": 0.0
+                }
+            }
+        },
+        "SSO": {
+            "best_run": {
+                "makespan": 50880.81321069801,
+                "total_tardiness": 179256.91698199924,
+                "total_tardy_units": 892,
+                "total_setup_cost": 31192.270858154145,
+                "total_setup_time": 20794.84723876943
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 50880.81321069801,
+                    "std": 0.0,
+                    "best": 50880.81321069801
+                },
+                "total_tardiness": {
+                    "mean": 179256.91698199924,
+                    "std": 0.0,
+                    "best": 179256.91698199924
+                },
+                "total_tardy_units": {
+                    "mean": 892.0,
+                    "std": 0.0,
+                    "best": 892.0
+                },
+                "setup_cost": {
+                    "mean": 31192.270858154145,
+                    "std": 0.0,
+                    "best": 31192.270858154145
+                },
+                "setup_time": {
+                    "mean": 20794.84723876943,
+                    "std": 0.0,
+                    "best": 20794.84723876943
+                },
+                "duration_seconds": {
+                    "mean": 6.445159912109375,
+                    "std": 0.0
+                }
+            }
+        },
+        "HFGA-TS": {
+            "best_run": {
+                "makespan": 52866.10961371071,
+                "total_tardiness": 187125.11131870217,
+                "total_tardy_units": 889,
+                "total_setup_cost": 29897.54964531981,
+                "total_setup_time": 19931.69976354654
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 52866.10961371071,
+                    "std": 0.0,
+                    "best": 52866.10961371071
+                },
+                "total_tardiness": {
+                    "mean": 187125.11131870217,
+                    "std": 0.0,
+                    "best": 187125.11131870217
+                },
+                "total_tardy_units": {
+                    "mean": 889.0,
+                    "std": 0.0,
+                    "best": 889.0
+                },
+                "setup_cost": {
+                    "mean": 29897.54964531981,
+                    "std": 0.0,
+                    "best": 29897.54964531981
+                },
+                "setup_time": {
+                    "mean": 19931.69976354654,
+                    "std": 0.0,
+                    "best": 19931.69976354654
+                },
+                "duration_seconds": {
+                    "mean": 5.106926918029785,
+                    "std": 0.0
+                }
+            }
+        }
+    }
+}

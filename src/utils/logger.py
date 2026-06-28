@@ -139,16 +139,19 @@ def save_experiment_data(dataset_name: str, params: dict, run_results: dict, exp
         if runs:
             makespans = [r["makespan"] for r in runs]
             tardinesses = [r["total_tardiness"] for r in runs]
+            tardy_units_list = [r.get("tardy_units", 0) for r in runs]
             setup_costs = [r["total_setup_cost"] for r in runs]
             setup_times = [r["total_setup_time"] for r in runs]
             durations = [r["duration"] for r in runs]
             
+            best_res = alg_data["best_result"]
             metadata["results"][alg_name] = {
                 "best_run": {
-                    "makespan": float(alg_data["best_result"].makespan),
-                    "total_tardiness": float(alg_data["best_result"].total_tardiness),
-                    "total_setup_cost": float(alg_data["best_result"].total_setup_cost),
-                    "total_setup_time": float(alg_data["best_result"].total_setup_time),
+                    "makespan": float(best_res.makespan),
+                    "total_tardiness": float(best_res.total_tardiness),
+                    "total_tardy_units": int(getattr(best_res, "total_tardy_units", 0)),
+                    "total_setup_cost": float(best_res.total_setup_cost),
+                    "total_setup_time": float(best_res.total_setup_time),
                 },
                 "statistics": {
                     "makespan": {
@@ -160,6 +163,11 @@ def save_experiment_data(dataset_name: str, params: dict, run_results: dict, exp
                         "mean": float(np.mean(tardinesses)),
                         "std": float(np.std(tardinesses)),
                         "best": float(np.min(tardinesses))
+                    },
+                    "total_tardy_units": {
+                        "mean": float(np.mean(tardy_units_list)),
+                        "std": float(np.std(tardy_units_list)),
+                        "best": float(np.min(tardy_units_list))
                     },
                     "setup_cost": {
                         "mean": float(np.mean(setup_costs)),
@@ -177,6 +185,7 @@ def save_experiment_data(dataset_name: str, params: dict, run_results: dict, exp
                     }
                 }
             }
+
             
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=4, ensure_ascii=False)

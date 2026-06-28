@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 # Reload local modules to prevent Streamlit from caching old versions
 for module_name in [
     "src.visualization.gantt",
+    "src.ui.sync",
     "src.ui.tabs.dataset_tab",
     "src.ui.tabs.optimization_tab",
     "src.ui.tabs.schedule_results_tab",
@@ -187,6 +188,8 @@ def main():
     GA_PARAMETERS.Population_Size = params["pop_size"]
     GA_PARAMETERS.Maximum_Generation = params["max_gens"]
     GA_PARAMETERS.Elitism_Rate = params["elitism_rate"]
+    GA_PARAMETERS.Initial_Crossover_Rate = params["initial_pc"]
+    GA_PARAMETERS.Initial_Mutation_Rate = params["initial_pm"]
     GA_PARAMETERS.No_Improvement_Limit = params["stall_limit"]
     GA_PARAMETERS.Threshold_of_Batch_Splitting = params["split_threshold"]
     GA_PARAMETERS.Crossover_Rate_Bounds = params["pc_bounds"]
@@ -194,6 +197,12 @@ def main():
     GA_PARAMETERS.Max_Iterations_of_Tabu_Search = params["ts_iter"]
     GA_PARAMETERS.Tabu_List_Size = params["tabu_size"]
     GA_PARAMETERS.Use_Parallel_Execution = params["use_parallel"]
+    GA_PARAMETERS.fitness_alpha = params["fitness_alpha"]
+    GA_PARAMETERS.fitness_beta = params["fitness_beta"]
+    GA_PARAMETERS.SSO_Cw = params["sso_cw"]
+    GA_PARAMETERS.SSO_Cp = params["sso_cp"]
+    GA_PARAMETERS.SSO_Cg = params["sso_cg"]
+    GA_PARAMETERS.SSO_Cr = params["sso_cr"]
 
     # Tabs layout
     tab_data, tab_opt, tab_sched, tab_compare = st.tabs(

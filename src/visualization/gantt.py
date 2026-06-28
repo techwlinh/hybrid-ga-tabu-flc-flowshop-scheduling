@@ -83,7 +83,7 @@ class SMTGanttChart:
                             "Machine": machine_label,
                             "Start": SMTGanttChart._time_to_dt(prev_stage_end),
                             "Finish": SMTGanttChart._time_to_dt(prev_stage_end + t_time),
-                            "Activity": f"Job {entry.job_id} Transit",
+                            "Activity": f"Product {entry.job_id} Transit",
                             "Job ID": str(entry.job_id),
                             "Batch ID": entry.batch_id,
                             "Type": "Transportation",
@@ -127,7 +127,7 @@ class SMTGanttChart:
                 "Machine": machine_label,
                 "Start": SMTGanttChart._time_to_dt(entry.start_time),
                 "Finish": SMTGanttChart._time_to_dt(entry.end_time),
-                "Activity": f"Job {entry.job_id}",
+                "Activity": f"Product {entry.job_id}",
                 "Job ID": str(entry.job_id),
                 "Batch ID": entry.batch_id,
                 "Type": "Processing",
@@ -150,8 +150,8 @@ class SMTGanttChart:
             "Machine Setup/Changeover": "#94A3B8"
         }
         for jid in unique_jobs:
-            color_discrete_map[f"Job {jid}"] = job_colors[jid]
-            color_discrete_map[f"Job {jid} Transit"] = "#38BDF8"
+            color_discrete_map[f"Product {jid}"] = job_colors[jid]
+            color_discrete_map[f"Product {jid} Transit"] = "#38BDF8"
             
         # Build timeline chart
         fig = px.timeline(
@@ -168,7 +168,7 @@ class SMTGanttChart:
         hover_template = (
             "<b>Activity:</b> %{customdata[0]}<br>"
             "<b>Batch ID:</b> %{customdata[1]}<br>"
-            "<b>Job ID:</b> %{customdata[2]}<br>"
+            "<b>Product ID:</b> %{customdata[2]}<br>"
             "<b>Quantity:</b> %{customdata[3]} units<br>"
             "<b>Priority:</b> Group %{customdata[4]}<br>"
             "<b>Due Date:</b> %{customdata[5]}<br>"

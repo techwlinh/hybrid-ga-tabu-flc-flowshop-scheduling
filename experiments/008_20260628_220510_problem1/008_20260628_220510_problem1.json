@@ -1,0 +1,385 @@
+{
+    "dataset_name": "problem1",
+    "timestamp": "20260628_220510",
+    "number_of_runs": 2,
+    "parameters": {
+        "pop_size": 10,
+        "max_gens": 50,
+        "elitism_rate": 0.1,
+        "stall_limit": 100,
+        "split_threshold": 150,
+        "pc_bounds": [
+            0.5,
+            0.95
+        ],
+        "pm_bounds": [
+            0.05,
+            0.2
+        ],
+        "ts_iter": 30,
+        "tabu_size": 15,
+        "use_parallel": true
+    },
+    "results": {
+        "Heuristic (FCFS)": {
+            "best_run": {
+                "makespan": 21801.707921933194,
+                "total_tardiness": 18662.976537785842,
+                "total_tardy_units": 136,
+                "total_setup_cost": 1332.092270410583,
+                "total_setup_time": 888.0615136070553
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21801.707921933194,
+                    "std": 0.0,
+                    "best": 21801.707921933194
+                },
+                "total_tardiness": {
+                    "mean": 18662.976537785842,
+                    "std": 0.0,
+                    "best": 18662.976537785842
+                },
+                "total_tardy_units": {
+                    "mean": 136.0,
+                    "std": 0.0,
+                    "best": 136.0
+                },
+                "setup_cost": {
+                    "mean": 1332.092270410583,
+                    "std": 0.0,
+                    "best": 1332.092270410583
+                },
+                "setup_time": {
+                    "mean": 888.0615136070553,
+                    "std": 0.0,
+                    "best": 888.0615136070553
+                },
+                "duration_seconds": {
+                    "mean": 0.02990889549255371,
+                    "std": 0.0
+                }
+            }
+        },
+        "Heuristic (EDD)": {
+            "best_run": {
+                "makespan": 21831.048056582844,
+                "total_tardiness": 18271.6973195425,
+                "total_tardy_units": 123,
+                "total_setup_cost": 1391.5023508145905,
+                "total_setup_time": 927.6682338763937
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21831.048056582844,
+                    "std": 0.0,
+                    "best": 21831.048056582844
+                },
+                "total_tardiness": {
+                    "mean": 18271.6973195425,
+                    "std": 0.0,
+                    "best": 18271.6973195425
+                },
+                "total_tardy_units": {
+                    "mean": 123.0,
+                    "std": 0.0,
+                    "best": 123.0
+                },
+                "setup_cost": {
+                    "mean": 1391.5023508145905,
+                    "std": 0.0,
+                    "best": 1391.5023508145905
+                },
+                "setup_time": {
+                    "mean": 927.6682338763937,
+                    "std": 0.0,
+                    "best": 927.6682338763937
+                },
+                "duration_seconds": {
+                    "mean": 0.0047228336334228516,
+                    "std": 0.0
+                }
+            }
+        },
+        "Heuristic (SPT)": {
+            "best_run": {
+                "makespan": 20090.158091689256,
+                "total_tardiness": 16225.077435319181,
+                "total_tardy_units": 132,
+                "total_setup_cost": 2405.1178518354263,
+                "total_setup_time": 1603.4119012236176
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 20090.158091689256,
+                    "std": 0.0,
+                    "best": 20090.158091689256
+                },
+                "total_tardiness": {
+                    "mean": 16225.077435319181,
+                    "std": 0.0,
+                    "best": 16225.077435319181
+                },
+                "total_tardy_units": {
+                    "mean": 132.0,
+                    "std": 0.0,
+                    "best": 132.0
+                },
+                "setup_cost": {
+                    "mean": 2405.1178518354263,
+                    "std": 0.0,
+                    "best": 2405.1178518354263
+                },
+                "setup_time": {
+                    "mean": 1603.4119012236176,
+                    "std": 0.0,
+                    "best": 1603.4119012236176
+                },
+                "duration_seconds": {
+                    "mean": 0.0046923160552978516,
+                    "std": 0.0
+                }
+            }
+        },
+        "Heuristic (LPT)": {
+            "best_run": {
+                "makespan": 20697.78338998827,
+                "total_tardiness": 16719.982132214514,
+                "total_tardy_units": 132,
+                "total_setup_cost": 2607.639634280231,
+                "total_setup_time": 1738.426422853487
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 20697.78338998827,
+                    "std": 0.0,
+                    "best": 20697.78338998827
+                },
+                "total_tardiness": {
+                    "mean": 16719.982132214514,
+                    "std": 0.0,
+                    "best": 16719.982132214514
+                },
+                "total_tardy_units": {
+                    "mean": 132.0,
+                    "std": 0.0,
+                    "best": 132.0
+                },
+                "setup_cost": {
+                    "mean": 2607.639634280231,
+                    "std": 0.0,
+                    "best": 2607.639634280231
+                },
+                "setup_time": {
+                    "mean": 1738.426422853487,
+                    "std": 0.0,
+                    "best": 1738.426422853487
+                },
+                "duration_seconds": {
+                    "mean": 0.005008220672607422,
+                    "std": 0.0
+                }
+            }
+        },
+        "Standard GA": {
+            "best_run": {
+                "makespan": 20863.677201743296,
+                "total_tardiness": 21065.49872032291,
+                "total_tardy_units": 151,
+                "total_setup_cost": 8820.081390049489,
+                "total_setup_time": 5880.054260032992
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 20965.03455921671,
+                    "std": 101.3573574734146,
+                    "best": 20863.677201743296
+                },
+                "total_tardiness": {
+                    "mean": 21340.513885742574,
+                    "std": 275.0151654196634,
+                    "best": 21065.49872032291
+                },
+                "total_tardy_units": {
+                    "mean": 149.5,
+                    "std": 1.5,
+                    "best": 148.0
+                },
+                "setup_cost": {
+                    "mean": 8989.262185517966,
+                    "std": 169.1807954684773,
+                    "best": 8820.081390049489
+                },
+                "setup_time": {
+                    "mean": 5992.841457011977,
+                    "std": 112.78719697898532,
+                    "best": 5880.054260032992
+                },
+                "duration_seconds": {
+                    "mean": 3.2247085571289062,
+                    "std": 0.33783864974975586
+                }
+            }
+        },
+        "GA-Tabu": {
+            "best_run": {
+                "makespan": 20863.677201743296,
+                "total_tardiness": 21065.49872032291,
+                "total_tardy_units": 151,
+                "total_setup_cost": 8820.081390049489,
+                "total_setup_time": 5880.054260032992
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 20965.03455921671,
+                    "std": 101.3573574734146,
+                    "best": 20863.677201743296
+                },
+                "total_tardiness": {
+                    "mean": 21340.513885742574,
+                    "std": 275.0151654196634,
+                    "best": 21065.49872032291
+                },
+                "total_tardy_units": {
+                    "mean": 149.5,
+                    "std": 1.5,
+                    "best": 148.0
+                },
+                "setup_cost": {
+                    "mean": 8989.262185517966,
+                    "std": 169.1807954684773,
+                    "best": 8820.081390049489
+                },
+                "setup_time": {
+                    "mean": 5992.841457011977,
+                    "std": 112.78719697898532,
+                    "best": 5880.054260032992
+                },
+                "duration_seconds": {
+                    "mean": 3.1247220039367676,
+                    "std": 0.1373751163482666
+                }
+            }
+        },
+        "FLC-GA": {
+            "best_run": {
+                "makespan": 21430.95548251498,
+                "total_tardiness": 22119.65191877936,
+                "total_tardy_units": 149,
+                "total_setup_cost": 8258.433627746079,
+                "total_setup_time": 5505.622418497386
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21505.46875129757,
+                    "std": 74.51326878258988,
+                    "best": 21430.95548251498
+                },
+                "total_tardiness": {
+                    "mean": 22401.966516365093,
+                    "std": 282.3145975857333,
+                    "best": 22119.65191877936
+                },
+                "total_tardy_units": {
+                    "mean": 158.0,
+                    "std": 9.0,
+                    "best": 149.0
+                },
+                "setup_cost": {
+                    "mean": 8293.969216935475,
+                    "std": 35.53558918939689,
+                    "best": 8258.433627746079
+                },
+                "setup_time": {
+                    "mean": 5529.312811290318,
+                    "std": 23.69039279293156,
+                    "best": 5505.622418497386
+                },
+                "duration_seconds": {
+                    "mean": 3.167015552520752,
+                    "std": 0.15035152435302734
+                }
+            }
+        },
+        "SSO": {
+            "best_run": {
+                "makespan": 21277.653335272506,
+                "total_tardiness": 21744.043073967623,
+                "total_tardy_units": 154,
+                "total_setup_cost": 8050.138745614465,
+                "total_setup_time": 5366.759163742977
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21326.681577868436,
+                    "std": 49.02824259593035,
+                    "best": 21277.653335272506
+                },
+                "total_tardiness": {
+                    "mean": 22153.85126615851,
+                    "std": 409.80819219088517,
+                    "best": 21744.043073967623
+                },
+                "total_tardy_units": {
+                    "mean": 158.5,
+                    "std": 4.5,
+                    "best": 154.0
+                },
+                "setup_cost": {
+                    "mean": 8143.833809286458,
+                    "std": 93.69506367199256,
+                    "best": 8050.138745614465
+                },
+                "setup_time": {
+                    "mean": 5429.222539524305,
+                    "std": 62.46337578132807,
+                    "best": 5366.759163742977
+                },
+                "duration_seconds": {
+                    "mean": 3.0354875326156616,
+                    "std": 0.0139695405960083
+                }
+            }
+        },
+        "HFGA-TS": {
+            "best_run": {
+                "makespan": 21430.95548251498,
+                "total_tardiness": 22119.65191877936,
+                "total_tardy_units": 149,
+                "total_setup_cost": 8258.433627746079,
+                "total_setup_time": 5505.622418497386
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21505.46875129757,
+                    "std": 74.51326878258988,
+                    "best": 21430.95548251498
+                },
+                "total_tardiness": {
+                    "mean": 22401.966516365093,
+                    "std": 282.3145975857333,
+                    "best": 22119.65191877936
+                },
+                "total_tardy_units": {
+                    "mean": 158.0,
+                    "std": 9.0,
+                    "best": 149.0
+                },
+                "setup_cost": {
+                    "mean": 8293.969216935475,
+                    "std": 35.53558918939689,
+                    "best": 8258.433627746079
+                },
+                "setup_time": {
+                    "mean": 5529.312811290318,
+                    "std": 23.69039279293156,
+                    "best": 5505.622418497386
+                },
+                "duration_seconds": {
+                    "mean": 3.135202646255493,
+                    "std": 0.12290740013122559
+                }
+            }
+        }
+    }
+}

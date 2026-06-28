@@ -80,6 +80,8 @@ class ScheduleResult:
     machine_utilization: Dict[str, float] = field(default_factory=dict)
     # Dictionary mapping workstation ID to average utilization rate of its machines
     workstation_utilization: Dict[int, float] = field(default_factory=dict)
+    total_tardy_units: int = 0
+
 
 
 @dataclass

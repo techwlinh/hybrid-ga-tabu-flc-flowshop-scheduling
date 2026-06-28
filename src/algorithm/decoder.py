@@ -195,6 +195,14 @@ class ChromosomeDecoder:
         for w_id, rates in workstation_busy_rates.items():
             workstation_utilization[w_id] = float(np.mean(rates)) if rates else 0.0
 
+        # Calculate Total Tardy Units at batch level
+        total_tardy_units = 0
+        for batch in batches:
+            job = jobs_dict[batch.job_id]
+            comp_time = batch_completion_times[batch.id].get(num_workstations - 1, 0.0)
+            if comp_time > job.due_date:
+                total_tardy_units += batch.quantity
+
         return ScheduleResult(
             entries=schedule_entries,
             makespan=makespan,
@@ -203,4 +211,6 @@ class ChromosomeDecoder:
             total_setup_time=total_setup_time,
             machine_utilization=machine_utilization,
             workstation_utilization=workstation_utilization,
+            total_tardy_units=total_tardy_units,
         )
+

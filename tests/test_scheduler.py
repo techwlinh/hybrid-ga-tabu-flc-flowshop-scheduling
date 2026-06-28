@@ -28,10 +28,11 @@ def test_data_loading(sample_problem):
     
     # Check that job quantities are generated in range
     for job in jobs:
-        assert 50 <= job.quantity <= 500
+        assert 50 <= job.quantity <= 200
         assert job.priority in [1, 2, 3, 4]
         assert len(job.eligible_machines) == 5
         assert len(job.unit_processing_times) == 5
+
 
 def test_batch_splitting(sample_problem):
     """Verifies that the batch splitting preserves total job quantities."""

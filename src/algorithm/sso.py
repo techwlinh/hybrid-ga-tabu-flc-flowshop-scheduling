@@ -29,10 +29,19 @@ class SSOScheduler:
         self.time_limit = GA_PARAMETERS.Time_Limitation_Seconds
         
         # SSO parameters (probabilities Cw + Cp + Cg + Cr = 1)
-        self.Cw = 0.20
-        self.Cp = 0.20
-        self.Cg = 0.50
-        self.Cr = 0.10
+        cw = getattr(GA_PARAMETERS, "SSO_Cw", 0.20)
+        cp = getattr(GA_PARAMETERS, "SSO_Cp", 0.20)
+        cg = getattr(GA_PARAMETERS, "SSO_Cg", 0.50)
+        cr = getattr(GA_PARAMETERS, "SSO_Cr", 0.10)
+        
+        tot = cw + cp + cg + cr
+        if tot > 0:
+            self.Cw = cw / tot
+            self.Cp = cp / tot
+            self.Cg = cg / tot
+            self.Cr = cr / tot
+        else:
+            self.Cw, self.Cp, self.Cg, self.Cr = 0.20, 0.20, 0.50, 0.10
 
     def _evaluate_fitness(self, res: ScheduleResult) -> float:
         """

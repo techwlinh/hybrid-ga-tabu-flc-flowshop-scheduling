@@ -218,11 +218,13 @@ def render_optimization_tab(
                 run_kpis = {
                     "makespan": float(res.makespan),
                     "total_tardiness": float(res.total_tardiness),
+                    "tardy_units": int(getattr(res, "total_tardy_units", 0)),
                     "total_setup_cost": float(res.total_setup_cost),
                     "total_setup_time": float(res.total_setup_time),
                     "duration": duration,
                     "fitness": fit,
                 }
+
                 runs_data.append(run_kpis)
 
                 if fit < best_fit:

@@ -1,0 +1,185 @@
+{
+    "dataset_name": "problem1",
+    "timestamp": "20260628_223437",
+    "number_of_runs": 2,
+    "parameters": {
+        "pop_size": 10,
+        "max_gens": 50,
+        "elitism_rate": 0.1,
+        "stall_limit": 100,
+        "split_threshold": 150,
+        "pc_bounds": [
+            0.5,
+            0.95
+        ],
+        "pm_bounds": [
+            0.05,
+            0.2
+        ],
+        "ts_iter": 30,
+        "tabu_size": 15,
+        "use_parallel": true
+    },
+    "results": {
+        "Heuristic (FCFS)": {
+            "best_run": {
+                "makespan": 21801.707921933194,
+                "total_tardiness": 18662.976537785842,
+                "total_tardy_units": 136,
+                "total_setup_cost": 1332.092270410583,
+                "total_setup_time": 888.0615136070553
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21801.707921933194,
+                    "std": 0.0,
+                    "best": 21801.707921933194
+                },
+                "total_tardiness": {
+                    "mean": 18662.976537785842,
+                    "std": 0.0,
+                    "best": 18662.976537785842
+                },
+                "total_tardy_units": {
+                    "mean": 136.0,
+                    "std": 0.0,
+                    "best": 136.0
+                },
+                "setup_cost": {
+                    "mean": 1332.092270410583,
+                    "std": 0.0,
+                    "best": 1332.092270410583
+                },
+                "setup_time": {
+                    "mean": 888.0615136070553,
+                    "std": 0.0,
+                    "best": 888.0615136070553
+                },
+                "duration_seconds": {
+                    "mean": 0.188323974609375,
+                    "std": 0.0
+                }
+            }
+        },
+        "Heuristic (EDD)": {
+            "best_run": {
+                "makespan": 21831.048056582844,
+                "total_tardiness": 18271.6973195425,
+                "total_tardy_units": 123,
+                "total_setup_cost": 1391.5023508145905,
+                "total_setup_time": 927.6682338763937
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21831.048056582844,
+                    "std": 0.0,
+                    "best": 21831.048056582844
+                },
+                "total_tardiness": {
+                    "mean": 18271.6973195425,
+                    "std": 0.0,
+                    "best": 18271.6973195425
+                },
+                "total_tardy_units": {
+                    "mean": 123.0,
+                    "std": 0.0,
+                    "best": 123.0
+                },
+                "setup_cost": {
+                    "mean": 1391.5023508145905,
+                    "std": 0.0,
+                    "best": 1391.5023508145905
+                },
+                "setup_time": {
+                    "mean": 927.6682338763937,
+                    "std": 0.0,
+                    "best": 927.6682338763937
+                },
+                "duration_seconds": {
+                    "mean": 0.06368494033813477,
+                    "std": 0.0
+                }
+            }
+        },
+        "SSO": {
+            "best_run": {
+                "makespan": 21085.98317454846,
+                "total_tardiness": 20415.395420984598,
+                "total_tardy_units": 147,
+                "total_setup_cost": 8488.521618188082,
+                "total_setup_time": 5659.014412125389
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21181.818254910482,
+                    "std": 95.83508036202329,
+                    "best": 21085.98317454846
+                },
+                "total_tardiness": {
+                    "mean": 21079.71924747611,
+                    "std": 664.3238264915126,
+                    "best": 20415.395420984598
+                },
+                "total_tardy_units": {
+                    "mean": 150.5,
+                    "std": 3.5,
+                    "best": 147.0
+                },
+                "setup_cost": {
+                    "mean": 8269.330181901274,
+                    "std": 219.19143628680877,
+                    "best": 8050.138745614465
+                },
+                "setup_time": {
+                    "mean": 5512.886787934183,
+                    "std": 146.127624191206,
+                    "best": 5366.759163742977
+                },
+                "duration_seconds": {
+                    "mean": 3.518424391746521,
+                    "std": 0.49319541454315186
+                }
+            }
+        },
+        "HFGA-TS": {
+            "best_run": {
+                "makespan": 21430.95548251498,
+                "total_tardiness": 22119.65191877936,
+                "total_tardy_units": 149,
+                "total_setup_cost": 8258.433627746079,
+                "total_setup_time": 5505.622418497386
+            },
+            "statistics": {
+                "makespan": {
+                    "mean": 21505.46875129757,
+                    "std": 74.51326878258988,
+                    "best": 21430.95548251498
+                },
+                "total_tardiness": {
+                    "mean": 22401.966516365093,
+                    "std": 282.3145975857333,
+                    "best": 22119.65191877936
+                },
+                "total_tardy_units": {
+                    "mean": 158.0,
+                    "std": 9.0,
+                    "best": 149.0
+                },
+                "setup_cost": {
+                    "mean": 8293.969216935475,
+                    "std": 35.53558918939689,
+                    "best": 8258.433627746079
+                },
+                "setup_time": {
+                    "mean": 5529.312811290318,
+                    "std": 23.69039279293156,
+                    "best": 5505.622418497386
+                },
+                "duration_seconds": {
+                    "mean": 2.94924795627594,
+                    "std": 0.024238944053649902
+                }
+            }
+        }
+    }
+}

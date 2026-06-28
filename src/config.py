@@ -52,6 +52,18 @@ class GAParameters(BaseModel):
     fitness_beta: float = Field(
         default=0.2, description="Weight beta for makespan in fitness"
     )
+    SSO_Cw: float = Field(
+        default=0.20, description="SSO inertia weight Cw"
+    )
+    SSO_Cp: float = Field(
+        default=0.20, description="SSO pbest weight Cp"
+    )
+    SSO_Cg: float = Field(
+        default=0.50, description="SSO gbest weight Cg"
+    )
+    SSO_Cr: float = Field(
+        default=0.10, description="SSO random weight Cr"
+    )
 
 
 class SMTParameters(BaseModel):

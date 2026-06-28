@@ -125,7 +125,8 @@ def sync_workstations(edited_df: pd.DataFrame, problem: Any):
 def sync_jobs(edited_df: pd.DataFrame, problem: Any, mach_tuples: list):
     """Synchronizes the edited jobs dataframe back to the problem instance."""
     for idx, row in edited_df.iterrows():
-        job_id = int(row["Job ID"])
+        job_col = "Product ID" if "Product ID" in row else "Job ID"
+        job_id = int(row[job_col])
         job = next((j for j in problem.jobs if j.id == job_id), None)
         if job is None:
             continue
@@ -177,10 +178,24 @@ def explain_solution(
                 job_completions.get(entry.job_id, 0.0), entry.end_time
             )
 
+    # Find completion times of each batch at final stage
+    batch_completions = {}
+    for entry in result.entries:
+        if entry.workstation_id == num_ws - 1:
+            batch_completions[entry.batch_id] = entry.end_time
+
     for job in jobs:
         comp_time = job_completions.get(job.id, 0.0)
         tardiness = max(0.0, comp_time - job.due_date)
         if tardiness > 0.0:
+            # Calculate tardy units for this job by looking at its late batches
+            tardy_units = 0
+            job_batches = [b for b in batches if b.job_id == job.id]
+            for b in job_batches:
+                c_time = batch_completions.get(b.id, 0.0)
+                if c_time > job.due_date:
+                    tardy_units += b.quantity
+
             # Analyze reason
             reason = "Late scheduled"
             if job.material_arrival_time > job.due_date * 0.8:
@@ -204,10 +219,12 @@ def explain_solution(
                     "due_date": job.due_date,
                     "completion": comp_time,
                     "tardiness": tardiness,
+                    "tardy_units": tardy_units,
                     "priority": job.priority,
                     "reason": reason,
                 }
             )
+
 
     # 3. Batch splitting summary
     splits_count = 0
@@ -220,7 +237,7 @@ def explain_solution(
         if count > 1:
             splits_count += 1
             split_details.append(
-                f"Job {j_id} split into {count} batches to distribute its quantity of {jobs[j_id].quantity} units"
+                f"Product {j_id} split into {count} batches to distribute its quantity of {jobs[j_id].quantity} units"
             )
 
     return {

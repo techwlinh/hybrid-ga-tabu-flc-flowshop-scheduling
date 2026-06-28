@@ -113,3 +113,79 @@ def test_empty_schedule_handling():
     assert stats["tardy_rate"] == 0.0
     assert stats["df_machines"].empty
     assert stats["df_jobs"].empty
+
+
+def test_tardiness_consistency(sample_problem):
+    """Verifies that individual job tardiness / tardy units sum up exactly to the total schedule result metrics."""
+    ga_engine = HFGA_TS(sample_problem)
+    batches = ga_engine.batches
+    jobs_dict = ga_engine.jobs_dict
+    jobs = sample_problem.jobs
+    workstations = sample_problem.workstations
+    num_ws = len(workstations)
+    
+    # Generate schedule result
+    prng = np.random.RandomState(123)
+    chromosome = prng.rand(len(batches) * 2)
+    res = ChromosomeDecoder.decode(
+        chromosome, batches, jobs_dict,
+        workstations, sample_problem.setup_times, sample_problem.setup_costs,
+        sample_problem.transport_matrix
+    )
+    
+    # 1. Calculate job level tardiness and tardy units
+    job_completions = {}
+    for entry in res.entries:
+        if entry.workstation_id == num_ws - 1:
+            job_completions[entry.job_id] = max(
+                job_completions.get(entry.job_id, 0.0), entry.end_time
+            )
+            
+    batch_completions = {}
+    for entry in res.entries:
+        if entry.workstation_id == num_ws - 1:
+            batch_completions[entry.batch_id] = entry.end_time
+            
+    summed_job_tardiness = 0.0
+    summed_job_tardy_units = 0
+    
+    for job in jobs:
+        comp_time = job_completions.get(job.id, 0.0)
+        tardiness = max(0.0, comp_time - job.due_date)
+        summed_job_tardiness += tardiness
+        
+        tardy_units_job = 0
+        job_batches = [b for b in batches if b.job_id == job.id]
+        for b in job_batches:
+            c_time = batch_completions.get(b.id, 0.0)
+            if c_time > job.due_date:
+                tardy_units_job += b.quantity
+        summed_job_tardy_units += tardy_units_job
+        
+    # Check job-level sums match the overall schedule result
+    assert abs(summed_job_tardiness - res.total_tardiness) < 1e-9
+    assert summed_job_tardy_units == res.total_tardy_units
+    
+    # 2. Check priority group dynamic breakdown consistency
+    priorities_list = sorted(list(set(job.priority for job in jobs)))
+    priority_stats = {p: {"tardy_units": 0, "total_tardiness": 0.0} for p in priorities_list}
+    for job in jobs:
+        p = job.priority
+        tardy_units_job = 0
+        job_batches = [b for b in batches if b.job_id == job.id]
+        for b in job_batches:
+            c_time = batch_completions.get(b.id, 0.0)
+            if c_time > job.due_date:
+                tardy_units_job += b.quantity
+        
+        priority_stats[p]["tardy_units"] += tardy_units_job
+        comp_time = job_completions.get(job.id, 0.0)
+        tardiness = max(0.0, comp_time - job.due_date)
+        priority_stats[p]["total_tardiness"] += tardiness
+        
+    summed_priority_tardiness = sum(stats["total_tardiness"] for stats in priority_stats.values())
+    summed_priority_tardy_units = sum(stats["tardy_units"] for stats in priority_stats.values())
+    
+    assert abs(summed_priority_tardiness - res.total_tardiness) < 1e-9
+    assert summed_priority_tardy_units == res.total_tardy_units
+

@@ -89,6 +89,7 @@ def render_performance_comparison_tab(problem_instance: Any):
 
             makespans = [r["makespan"] for r in runs]
             tardinesses = [r["total_tardiness"] for r in runs]
+            tardy_units_list = [r.get("tardy_units", 0) for r in runs]
             setup_costs = [r["total_setup_cost"] for r in runs]
             setup_times = [r["total_setup_time"] for r in runs]
             durations = [r["duration"] for r in runs]
@@ -105,6 +106,11 @@ def render_performance_comparison_tab(problem_instance: Any):
                 np.mean(tardinesses),
                 np.std(tardinesses),
                 np.min(tardinesses),
+            )
+            mean_tu, std_tu, best_tu = (
+                np.mean(tardy_units_list),
+                np.std(tardy_units_list),
+                np.min(tardy_units_list),
             )
             mean_sc, std_sc, best_sc = (
                 np.mean(setup_costs),
@@ -126,6 +132,7 @@ def render_performance_comparison_tab(problem_instance: Any):
                     "Algorithm": alg_name,
                     "Makespan (min)": f"{mean_m:.1f} ± {std_m:.1f} ({best_m:.1f})",
                     "Total Tardiness (min)": f"{mean_t:.1f} ± {std_t:.1f} ({best_t:.1f})",
+                    "Tardy Units (pcs)": f"{mean_tu:.1f} ± {std_tu:.1f} ({best_tu:.0f})",
                     "Setup Cost ($)": f"{mean_sc:.1f} ± {std_sc:.1f} ({best_sc:.1f})",
                     "Setup Time (min)": f"{mean_st:.1f} ± {std_st:.1f} ({best_st:.1f})",
                     "Exec Time (s)": f"{mean_d:.2f} ± {std_d:.2f}",
@@ -136,6 +143,8 @@ def render_performance_comparison_tab(problem_instance: Any):
                     "raw_std_makespan": std_m,
                     "raw_mean_tardiness": mean_t,
                     "raw_std_tardiness": std_t,
+                    "raw_mean_tardy_units": mean_tu,
+                    "raw_std_tardy_units": std_tu,
                     "raw_mean_setup_cost": mean_sc,
                     "raw_std_setup_cost": std_sc,
                     "raw_mean_fitness": mean_f,
@@ -155,6 +164,7 @@ def render_performance_comparison_tab(problem_instance: Any):
                         "Run": f"Run {run_idx+1}",
                         "Makespan (min)": r["makespan"],
                         "Total Tardiness (min)": r["total_tardiness"],
+                        "Tardy Units (pcs)": r.get("tardy_units", 0),
                         "Setup Cost ($)": r["total_setup_cost"],
                         "Exec Time (s)": r["duration"],
                         "Fitness (Raw)": raw_fit,
@@ -171,6 +181,7 @@ def render_performance_comparison_tab(problem_instance: Any):
             "Algorithm",
             "Makespan (min)",
             "Total Tardiness (min)",
+            "Tardy Units (pcs)",
             "Setup Cost ($)",
             "Fitness (Raw)",
         ]
@@ -194,12 +205,16 @@ def render_performance_comparison_tab(problem_instance: Any):
                 std_makespan=("Makespan (min)", "std"),
                 mean_tardiness=("Total Tardiness (min)", "mean"),
                 std_tardiness=("Total Tardiness (min)", "std"),
+                mean_tardy_units=("Tardy Units (pcs)", "mean"),
+                std_tardy_units=("Tardy Units (pcs)", "std"),
                 mean_setup_cost=("Setup Cost ($)", "mean"),
                 std_setup_cost=("Setup Cost ($)", "std"),
                 mean_fit_raw=("Fitness (Raw)", "mean"),
                 std_fit_raw=("Fitness (Raw)", "std"),
                 mean_fit_norm=("Fitness (Normalized)", "mean"),
                 std_fit_norm=("Fitness (Normalized)", "std"),
+                mean_exec_time=("Exec Time (s)", "mean"),
+                std_exec_time=("Exec Time (s)", "std"),
             )
             .reset_index()
         )
@@ -207,9 +222,10 @@ def render_performance_comparison_tab(problem_instance: Any):
         # Fill NaN std (e.g. if runs=1) with 0.0
         agg_df = agg_df.fillna(0.0)
 
-        # 2x2 Layout for Charts
+        # 3x2 Layout for Charts
         col_r1_1, col_r1_2 = st.columns(2)
         col_r2_1, col_r2_2 = st.columns(2)
+        col_r3_1, col_r3_2 = st.columns(2)
 
         with col_r1_1:
             fig1 = px.bar(
@@ -277,8 +293,134 @@ def render_performance_comparison_tab(problem_instance: Any):
             )
             st.plotly_chart(fig4, use_container_width=True)
 
+        with col_r3_1:
+            fig5 = px.bar(
+                agg_df,
+                x="Algorithm",
+                y="mean_tardy_units",
+                error_y="std_tardy_units",
+                color="Algorithm",
+                title="Tardy Product Units Comparison (Mean ± Std Dev)",
+                labels={"mean_tardy_units": "Tardy Units (pcs)", "Algorithm": "Method"},
+                color_discrete_sequence=px.colors.qualitative.Prism,
+            )
+            st.plotly_chart(fig5, use_container_width=True)
+
+        with col_r3_2:
+            fig6 = px.bar(
+                agg_df,
+                x="Algorithm",
+                y="mean_exec_time",
+                error_y="std_exec_time",
+                color="Algorithm",
+                title="Execution Time Comparison (Mean ± Std Dev)",
+                labels={"mean_exec_time": "Execution Time (seconds)", "Algorithm": "Method"},
+                color_discrete_sequence=px.colors.qualitative.Prism,
+            )
+            st.plotly_chart(fig6, use_container_width=True)
+
+        # Priority Group Tardiness Comparison Section
+        st.write("### 🏷️ Priority-based Tardiness Comparison (Best Runs)")
+        batches = st.session_state.get("batches", [])
+        priority_comp_records = []
+        for alg_name in selected_algs:
+            alg_data = results["algs"][alg_name]
+            best_res = alg_data["best_result"]
+            
+            # Calculate job completion times at final stage
+            job_completions = {}
+            num_ws = len(problem_instance.workstations)
+            for entry in best_res.entries:
+                if entry.workstation_id == num_ws - 1:
+                    job_completions[entry.job_id] = max(
+                        job_completions.get(entry.job_id, 0.0), entry.end_time
+                    )
+
+            # Find batch completion times at final stage
+            batch_completions = {}
+            for entry in best_res.entries:
+                if entry.workstation_id == num_ws - 1:
+                    batch_completions[entry.batch_id] = entry.end_time
+
+            priorities_list = sorted(list(set(job.priority for job in problem_instance.jobs)))
+            priority_stats = {p: {"tardy_units": 0, "total_tardiness": 0.0} for p in priorities_list}
+            for job in problem_instance.jobs:
+                p = job.priority
+                # Calculate tardy units for this job by looking at its late batches
+                tardy_units_job = 0
+                job_batches = [b for b in batches if b.job_id == job.id]
+                for b in job_batches:
+                    c_time = batch_completions.get(b.id, 0.0)
+                    if c_time > job.due_date:
+                        tardy_units_job += b.quantity
+                
+                if p in priority_stats:
+                    priority_stats[p]["tardy_units"] += tardy_units_job
+                    
+                    comp_time = job_completions.get(job.id, 0.0)
+                    tardiness = max(0.0, comp_time - job.due_date)
+                    if tardiness > 0.0:
+                        priority_stats[p]["total_tardiness"] += tardiness
+            
+            for p in priorities_list:
+                priority_comp_records.append({
+                    "Algorithm": alg_name,
+                    "Priority Group": f"Priority {p}",
+                    "Tardy Units (pcs)": priority_stats[p]["tardy_units"],
+                    "Total Tardiness (min)": round(priority_stats[p]["total_tardiness"], 1),
+                })
+        
+        df_priority_comp = pd.DataFrame(priority_comp_records)
+        df_pivot_qty = df_priority_comp.pivot(
+            index="Algorithm", columns="Priority Group", values="Tardy Units (pcs)"
+        )
+        df_pivot_time = df_priority_comp.pivot(
+            index="Algorithm", columns="Priority Group", values="Total Tardiness (min)"
+        )
+
+        df_pivot_qty["Total"] = df_pivot_qty.sum(axis=1)
+        df_pivot_time["Total"] = df_pivot_time.sum(axis=1).round(1)
+
+        col_tbl1, col_tbl2 = st.columns(2)
+        with col_tbl1:
+            st.write("**Late Product Units (pcs) by Priority**")
+            st.dataframe(df_pivot_qty, use_container_width=True)
+        with col_tbl2:
+            st.write("**Total Tardiness Time (min) by Priority**")
+            st.dataframe(df_pivot_time, use_container_width=True)
+
+        st.caption("ℹ️ *Note: The priority breakdowns above are based on the best run of each method. The 'Total' column matches the best run's metrics (shown in parenthesis in the summary table above).*")
+
+        col_ch1, col_ch2 = st.columns(2)
+        with col_ch1:
+            fig_p_qty = px.bar(
+                df_priority_comp,
+                x="Priority Group",
+                y="Tardy Units (pcs)",
+                color="Algorithm",
+                barmode="group",
+                title="Number of Tardy Product Units by Priority Group",
+                labels={"Tardy Units (pcs)": "Tardy Units (pcs)"},
+                color_discrete_sequence=px.colors.qualitative.Prism,
+            )
+            st.plotly_chart(fig_p_qty, use_container_width=True, key="priority_comp_qty_chart")
+            
+        with col_ch2:
+            fig_p_time = px.bar(
+                df_priority_comp,
+                x="Priority Group",
+                y="Total Tardiness (min)",
+                color="Algorithm",
+                barmode="group",
+                title="Total Tardiness Time by Priority Group",
+                color_discrete_sequence=px.colors.qualitative.Prism,
+            )
+            st.plotly_chart(fig_p_time, use_container_width=True, key="priority_comp_time_chart")
+
+
         # Statistical Analysis Section
         st.write("### 🧠 Statistical Significance Analysis")
+
 
         # Find HFGA-TS results
         hfgats_res = None
@@ -306,6 +448,9 @@ def render_performance_comparison_tab(problem_instance: Any):
             base_makespan = baseline_res["raw_mean_makespan"]
             prop_makespan = hfgats_res["raw_mean_makespan"]
 
+            base_tardy_units = baseline_res["raw_mean_tardy_units"]
+            prop_tardy_units = hfgats_res["raw_mean_tardy_units"]
+
             base_fitness = baseline_res["raw_mean_fitness"]
             prop_fitness = hfgats_res["raw_mean_fitness"]
 
@@ -313,13 +458,15 @@ def render_performance_comparison_tab(problem_instance: Any):
                 (base_tardiness - prop_tardiness) / (base_tardiness + 1e-6)
             ) * 100
             imp_make = ((base_makespan - prop_makespan) / (base_makespan + 1e-6)) * 100
+            imp_tu = ((base_tardy_units - prop_tardy_units) / (base_tardy_units + 1e-6)) * 100
             imp_fit = ((base_fitness - prop_fitness) / (base_fitness + 1e-6)) * 100
 
             st.markdown(f"""
             #### 🚀 Performance Improvement Highlights
             Comparing the proposed **HFGA-TS** algorithm with **{baseline_res['Algorithm']}**:
             - **Makespan Improvement:** **{imp_make:.1f}%** reduction in schedule makespan.
-            - **Tardiness Improvement:** **{imp_tard:.1f}%** reduction in total tardiness delay.
+            - **Tardiness Time Improvement:** **{imp_tard:.1f}%** reduction in total tardiness delay.
+            - **Tardy Product Units Improvement:** **{imp_tu:.1f}%** reduction in number of tardy product units.
             - **Fitness Improvement:** **{imp_fit:.1f}%** reduction in composite fitness.
             """)
 
@@ -350,3 +497,4 @@ def render_performance_comparison_tab(problem_instance: Any):
             )
     else:
         st.info("Run the optimization first to view comparative statistics.")
+
