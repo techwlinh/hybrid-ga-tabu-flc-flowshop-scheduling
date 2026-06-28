@@ -215,13 +215,18 @@ class HeuristicScheduler:
             workstation_utilization=workstation_utilization
         )
 
+        from src.config import GA_PARAMETERS
+        alpha = getattr(GA_PARAMETERS, "fitness_alpha", 0.5)
+        beta = getattr(GA_PARAMETERS, "fitness_beta", 0.5)
+        h_fit = float(alpha * total_tardiness + beta * makespan)
+
         if progress_callback is not None:
-            progress_callback(generation=1, best_fitness=total_tardiness, average_fitness=total_tardiness, diversity=0.0, pc=0.0, pm=0.0)
+            progress_callback(generation=1, best_fitness=h_fit, average_fitness=h_fit, diversity=0.0, pc=0.0, pm=0.0)
 
         history = {
             "generation": [1],
-            "best_fitness": [total_tardiness],
-            "average_fitness": [total_tardiness],
+            "best_fitness": [h_fit],
+            "average_fitness": [h_fit],
         }
 
         return res, None, history

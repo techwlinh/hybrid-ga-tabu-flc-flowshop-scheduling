@@ -6,7 +6,14 @@ import importlib
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Reload local modules to prevent Streamlit from caching old versions
-for module_name in ["src.visualization.gantt", "src.ui.tabs"]:
+for module_name in [
+    "src.visualization.gantt",
+    "src.ui.tabs.dataset_tab",
+    "src.ui.tabs.optimization_tab",
+    "src.ui.tabs.schedule_results_tab",
+    "src.ui.tabs.performance_comparison_tab",
+    "src.ui.tabs",
+]:
     if module_name in sys.modules:
         importlib.reload(sys.modules[module_name])
 
@@ -202,7 +209,10 @@ def main():
         render_dataset_tab(problem_instance)
 
     with tab_opt:
-        render_optimization_tab(problem_instance, params["max_gens"])
+        dataset_name = os.path.splitext(os.path.basename(selected_file_path))[0]
+        render_optimization_tab(
+            problem_instance, params["max_gens"], dataset_name, params
+        )
 
     with tab_sched:
         render_schedule_results_tab(problem_instance)

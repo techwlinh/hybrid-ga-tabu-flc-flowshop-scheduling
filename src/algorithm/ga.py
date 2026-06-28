@@ -78,7 +78,10 @@ def _eval_worker(args) -> float:
         setup_costs,
         transport_matrix,
     )
-    return float(res.total_tardiness + 1e-4 * res.total_setup_cost)
+    from src.config import GA_PARAMETERS
+    alpha = getattr(GA_PARAMETERS, "fitness_alpha", 0.5)
+    beta = getattr(GA_PARAMETERS, "fitness_beta", 0.5)
+    return float(alpha * res.total_tardiness + beta * res.makespan)
 
 
 def _serialize_batches(batches):
@@ -132,7 +135,9 @@ class HFGA_TS:
     for optimizing SMT scheduling.
     """
 
-    def __init__(self, problem: ProblemInstance, use_flc: bool = True, use_tabu: bool = True):
+    def __init__(
+        self, problem: ProblemInstance, use_flc: bool = True, use_tabu: bool = True
+    ):
         self.problem = problem
         self.jobs_dict = {job.id: job for job in problem.jobs}
         self.use_flc = use_flc
@@ -212,10 +217,12 @@ class HFGA_TS:
     def _evaluate_fitness(res: ScheduleResult) -> float:
         """
         Calculates a composite scalar fitness score to minimize.
-        Primary objective: Total Tardiness.
-        Secondary objective: Setup Cost (weighted very small to resolve ties).
+        Weighted combination of Total Tardiness and Makespan.
         """
-        return float(res.total_tardiness + 1e-4 * res.total_setup_cost)
+        from src.config import GA_PARAMETERS
+        alpha = getattr(GA_PARAMETERS, "fitness_alpha", 0.5)
+        beta = getattr(GA_PARAMETERS, "fitness_beta", 0.5)
+        return float(alpha * res.total_tardiness + beta * res.makespan)
 
     def _evaluate_population(
         self, population: np.ndarray, executor: ProcessPoolExecutor = None

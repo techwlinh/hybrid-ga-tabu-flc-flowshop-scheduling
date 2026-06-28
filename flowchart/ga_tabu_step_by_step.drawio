@@ -1,0 +1,488 @@
+<mxfile host="Electron" agent="5.0">
+  <diagram id="ga_tabu_step_by_step_diagram" name="GA-Tabu Step by Step Chromosome Refinement">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1200" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- =================== HEADER / TITLE =================== -->
+        <mxCell id="title_block" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b&gt;&lt;font size='6' color='#1E3A8A'&gt;HYBRID OPTIMIZATION PROCESS (MEMETIC ALGORITHM)&lt;/font&gt;&lt;/b&gt;&lt;br/&gt;&lt;b&gt;&lt;font size='4' color='#475569'&gt;Step-by-Step Chromosome Refinement combining GA Exploration and Tabu Search Exploitation&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="70" width="1500" x="50" y="20" as="geometry" />
+        </mxCell>
+        
+        <!-- =================== LEFT PANEL: FLOWCHART PROCESS =================== -->
+        <mxCell id="left_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#E2E8F0;strokeWidth=2;align=center;verticalAlign=top;fontColor=#1E3A8A;fontStyle=1;fontSize=14;spacingTop=10;" value="STANDARDIZED OPERATIONAL PROCESS" vertex="1">
+          <mxGeometry height="1000" width="700" x="50" y="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Concept Box at top of Left Panel -->
+        <mxCell id="concept_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1;align=center;verticalAlign=top;spacingTop=8;fontSize=12;fontColor=#475569;" value="&lt;b&gt;GA + TS HYBRID COMBINATION&lt;/b&gt;" vertex="1">
+          <mxGeometry height="110" width="640" x="80" y="160" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="concept_ga" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;align=center;fontSize=11;fontColor=#1E3A8A;" value="&lt;b&gt;GA Exploration&lt;/b&gt;&lt;br/&gt;Wide Search&lt;br/&gt;'Finds promising regions'" vertex="1">
+          <mxGeometry height="60" width="160" x="100" y="195" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="concept_arrow1" parent="1" style="shape=singleArrow;direction=east;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#94A3B8;arrowWidth=0.4;arrowSize=0.4;" vertex="1">
+          <mxGeometry height="25" width="50" x="275" y="212.5" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="concept_ts" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=center;fontSize=11;fontColor=#B45309;" value="&lt;b&gt;TS Exploitation&lt;/b&gt;&lt;br/&gt;Deep Search&lt;br/&gt;'Pinpoints local peaks'" vertex="1">
+          <mxGeometry height="60" width="160" x="340" y="195" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="concept_arrow2" parent="1" style="shape=singleArrow;direction=east;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#94A3B8;arrowWidth=0.4;arrowSize=0.4;" vertex="1">
+          <mxGeometry height="25" width="50" x="515" y="212.5" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="concept_treasure" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#34A853;align=center;fontSize=11;fontColor=#1B5E20;fontStyle=1;" value="&lt;b&gt;Treasure Found&lt;/b&gt;&lt;br/&gt;Best Solution&lt;br/&gt;(Minimum Tardiness)" vertex="1">
+          <mxGeometry height="60" width="110" x="580" y="195" as="geometry" />
+        </mxCell>
+        
+        <!-- GA Flow steps -->
+        <mxCell id="flow_start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#3B82F6;strokeWidth=1.5;align=center;fontSize=12;fontColor=#1A73E8;fontStyle=1;" value="START: INITIAL POPULATION&lt;br/&gt;&lt;font fontColor='#5F6368' fontStyle='0'&gt;(e.g., SMT Schedules)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="300" x="250" y="290" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow_ga_cycle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#3B82F6;strokeWidth=1.5;align=center;fontSize=12;fontColor=#1A73E8;fontStyle=1;" value="GENETIC ALGORITHM (GA) CYCLE&lt;br/&gt;&lt;font fontColor='#5F6368' fontStyle='0'&gt;(Crossover, Mutation)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="300" x="250" y="370" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow_offspring" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F3F4;strokeColor=#BDC1C6;strokeWidth=1.5;align=center;fontSize=12;fontColor='#3C4043';fontStyle=1;" value="GENERATE OFFSPRING" vertex="1">
+          <mxGeometry height="40" width="300" x="250" y="450" as="geometry" />
+        </mxCell>
+        
+        <!-- TS Box in Flowchart -->
+        <mxCell id="flow_ts_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFDF5;strokeColor=#FCD34D;strokeWidth=2;align=center;verticalAlign=top;fontColor=#B45309;fontStyle=1;fontSize=12;spacingTop=10;" value="INTEGRATED TABU SEARCH (TS) IMPROVEMENT PHASE" vertex="1">
+          <mxGeometry height="300" width="600" x="100" y="520" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ts_sub_start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FCD34D;align=center;fontSize=11;fontColor=#92400E;" value="&lt;b&gt;Select Individuals&lt;/b&gt;&lt;br/&gt;(e.g., best offspring)&lt;br/&gt;as Starting Point" vertex="1">
+          <mxGeometry height="60" width="220" x="130" y="570" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ts_sub_search" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FCD34D;align=center;fontSize=11;fontColor=#92400E;" value="&lt;b&gt;Neighboring Search&lt;/b&gt;&lt;br/&gt;(Swap / Insert keys)" vertex="1">
+          <mxGeometry height="60" width="220" x="420" y="570" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ts_sub_eval" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FCD34D;align=center;fontSize=11;fontColor=#92400E;" value="&lt;b&gt;Evaluate Neighbors&lt;/b&gt;&lt;br/&gt;(Decode &amp;amp; calculate fitness)" vertex="1">
+          <mxGeometry height="60" width="220" x="130" y="650" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ts_sub_update" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FCD34D;align=center;fontSize=11;fontColor=#92400E;" value="&lt;b&gt;Update Best Local Solution&lt;/b&gt;&lt;br/&gt;(Save improvement, bypass if tabu)" vertex="1">
+          <mxGeometry height="60" width="220" x="420" y="650" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ts_sub_tabulist" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FCD34D;align=center;fontSize=11;fontColor=#92400E;" value="&lt;b&gt;Add Moves to Tabu List&lt;/b&gt;&lt;br/&gt;(Prevent cycles and back-tracking)" vertex="1">
+          <mxGeometry height="60" width="220" x="420" y="730" as="geometry" />
+        </mxCell>
+        
+        <!-- Exit TS Flow -->
+        <mxCell id="flow_update_pop" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF5FF;strokeColor=#3B82F6;strokeWidth=1.5;align=center;fontSize=12;fontColor=#1E3A8A;fontStyle=1;" value="UPDATE POPULATION WITH IMPROVED INDIVIDUALS" vertex="1">
+          <mxGeometry height="50" width="400" x="200" y="850" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow_term" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5F5;strokeColor=#E53E3E;strokeWidth=1.5;align=center;fontSize=12;fontColor=#9B1C1C;fontStyle=1;" value="TERMINATION&lt;br/&gt;CRITERIA MET?" vertex="1">
+          <mxGeometry height="80" width="260" x="270" y="930" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow_best" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#70AD47;strokeWidth=2;align=center;fontSize=12;fontColor=#2D5A27;fontStyle=1;" value="BEST SCHEDULE&lt;br/&gt;&lt;font fontStyle='0'&gt;(Optimal Order, Minimum Tardiness)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="300" x="250" y="1040" as="geometry" />
+        </mxCell>
+        
+        <!-- Left Panel Arrows -->
+        <mxCell id="arrow_l1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" source="flow_start" target="flow_ga_cycle">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_l2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" source="flow_ga_cycle" target="flow_offspring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_l3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" source="flow_offspring" target="ts_sub_start">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- TS Internal Flow Loops -->
+        <mxCell id="arrow_ts_i1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#D97706;strokeWidth=1.5;" edge="1" source="ts_sub_start" target="ts_sub_search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_ts_i2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#D97706;strokeWidth=1.5;" edge="1" source="ts_sub_search" target="ts_sub_eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_ts_i3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#D97706;strokeWidth=1.5;" edge="1" source="ts_sub_eval" target="ts_sub_update">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_ts_i4" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#D97706;strokeWidth=1.5;" edge="1" source="ts_sub_update" target="ts_sub_tabulist">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_ts_loop" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#D97706;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=1;entryY=0.5;" edge="1" source="ts_sub_tabulist" target="ts_sub_search">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="660;760;660;600" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_ts_loop" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#B45309;" value="Repeat for&lt;br/&gt;short iterations" vertex="1">
+          <mxGeometry height="30" width="100" x="590" y="665" as="geometry" />
+        </mxCell>
+        
+        <!-- Box Exit back to GA -->
+        <mxCell id="arrow_ts_exit" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#3B82F6;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" source="flow_ts_box" target="flow_update_pop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_l4" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" source="flow_update_pop" target="flow_term">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_l5_yes" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#34A853;strokeWidth=2;" edge="1" source="flow_term" target="flow_best">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_yes" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#2D5A27;fontStyle=1;" value="Yes" vertex="1">
+          <mxGeometry height="20" width="30" x="410" y="1010" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="arrow_l5_no" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#E53E3E;strokeWidth=2;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="flow_term" target="flow_ga_cycle">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="60;970;60;395" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_no" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#9B1C1C;fontStyle=1;" value="No" vertex="1">
+          <mxGeometry height="20" width="30" x="120" y="945" as="geometry" />
+        </mxCell>
+        
+        
+        <!-- =================== RIGHT PANEL: STEP-BY-STEP CHROMOSOME Walkthrough =================== -->
+        <mxCell id="right_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=2;align=center;verticalAlign=top;fontColor=#1E3A8A;fontStyle=1;fontSize=14;spacingTop=10;" value="SMT SCHEDULING EXAMPLE (LED SEGMENTATION)" vertex="1">
+          <mxGeometry height="1000" width="760" x="790" y="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="right_subtitle" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#475569;" value="&lt;b&gt;5 Batches: [A, B, C, D, E]   |   Goal: Minimize Total Tardiness&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="720" x="810" y="140" as="geometry" />
+        </mxCell>
+        
+        <!-- =================== PHASE 1: GA GLOBAL SEARCH =================== -->
+        <mxCell id="right_phase1_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;strokeWidth=1;align=center;verticalAlign=top;fontColor=#475569;fontStyle=1;fontSize=12;" value="" vertex="1">
+          <mxGeometry height="90" width="720" x="810" y="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p1_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#CBD5E1;align=center;fontSize=11;fontColor=#334155;fontStyle=1;" value="PHASE 1: GA GLOBAL SEARCH" vertex="1">
+          <mxGeometry height="25" width="220" x="825" y="190" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p1_label" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="Individual is generated:" vertex="1">
+          <mxGeometry height="30" width="130" x="830" y="225" as="geometry" />
+        </mxCell>
+        
+        <!-- GA Chromosome blocks -->
+        <mxCell id="p1_chrom_A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=12;fontColor=#1E3A8A;fontStyle=1;" value="A" vertex="1">
+          <mxGeometry height="30" width="30" x="970" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_arr1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="30" width="15" x="1000" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_chrom_B" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=12;fontColor=#1E3A8A;fontStyle=1;" value="B" vertex="1">
+          <mxGeometry height="30" width="30" x="1015" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_arr2" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="30" width="15" x="1045" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_chrom_C" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=12;fontColor=#1E3A8A;fontStyle=1;" value="C" vertex="1">
+          <mxGeometry height="30" width="30" x="1060" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_arr3" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="30" width="15" x="1090" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_chrom_D" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=12;fontColor=#1E3A8A;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry height="30" width="30" x="1105" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_arr4" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="30" width="15" x="1135" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_chrom_E" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=12;fontColor=#1E3A8A;fontStyle=1;" value="E" vertex="1">
+          <mxGeometry height="30" width="30" x="1150" y="225" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p1_fitness" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1F2937;" value="&lt;b&gt;Fitness:&lt;/b&gt; 120 minutes &lt;font color='#DC2626'&gt;(Tardiness)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="180" x="1200" y="225" as="geometry" />
+        </mxCell>
+        
+        <!-- =================== PHASE 2: TABU SEARCH REFINEMENT =================== -->
+        <mxCell id="right_phase2_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFDF5;strokeColor=#FCD34D;strokeWidth=1.5;align=center;verticalAlign=top;fontColor=#475569;fontStyle=1;fontSize=12;" value="" vertex="1">
+          <mxGeometry height="545" width="720" x="810" y="285" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p2_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#FCD34D;align=center;fontSize=11;fontColor=#92400E;fontStyle=1;" value="PHASE 2: TABU SEARCH REFINEMENT" vertex="1">
+          <mxGeometry height="25" width="250" x="825" y="295" as="geometry" />
+        </mxCell>
+        
+        <!-- Seed Initial Chromosome -->
+        <mxCell id="p2_seed_lbl" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&lt;b&gt;Initial Seed:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="80" x="830" y="335" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p2_s_A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#BDC1C6;strokeWidth=1;align=center;fontSize=11;fontColor=#374151;fontStyle=1;" value="A" vertex="1">
+          <mxGeometry height="25" width="25" x="910" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_sa1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="935" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_s_B" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#BDC1C6;strokeWidth=1;align=center;fontSize=11;fontColor=#374151;fontStyle=1;" value="B" vertex="1">
+          <mxGeometry height="25" width="25" x="950" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_sa2" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="975" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_s_C" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#BDC1C6;strokeWidth=1;align=center;fontSize=11;fontColor=#374151;fontStyle=1;" value="C" vertex="1">
+          <mxGeometry height="25" width="25" x="990" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_sa3" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1015" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_s_D" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#BDC1C6;strokeWidth=1;align=center;fontSize=11;fontColor=#374151;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry height="25" width="25" x="1030" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_sa4" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1055" y="337.5" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_s_E" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#BDC1C6;strokeWidth=1;align=center;fontSize=11;fontColor=#374151;fontStyle=1;" value="E" vertex="1">
+          <mxGeometry height="25" width="25" x="1070" y="337.5" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p2_seed_fit" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value=" (120 mins)  |  &lt;b&gt;Tabu List:&lt;/b&gt; [ ]" vertex="1">
+          <mxGeometry height="30" width="200" x="1105" y="335" as="geometry" />
+        </mxCell>
+        
+        <!-- ITERATION 1 -->
+        <mxCell id="iter1_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" value="" vertex="1">
+          <mxGeometry height="125" width="680" x="830" y="375" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter1_title" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="ITERATION 1: Neighborhood Exploration" vertex="1">
+          <mxGeometry height="20" width="300" x="840" y="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter1_moves" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="• Swap(A, B) &amp;rarr; [B &amp;rarr; A &amp;rarr; C &amp;rarr; D &amp;rarr; E] (Tardiness: 130 mins)&lt;br/&gt;• Swap(B, C) &amp;rarr; [A &amp;rarr; C &amp;rarr; B &amp;rarr; D &amp;rarr; E] (Tardiness: 105 mins) &lt;b&gt;&lt;font color='#16A34A'&gt;&amp;nbsp;&amp;nbsp;&amp;rarr; Best Neighbor&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="35" width="500" x="840" y="405" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter1_upd_lbl" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&lt;b&gt;Update:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="25" width="50" x="840" y="455" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i1_A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="A" vertex="1">
+          <mxGeometry height="25" width="25" x="900" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_arr1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="925" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_C" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF08A;strokeColor=#CA8A04;strokeWidth=1.5;align=center;fontSize=11;fontColor=#854D0E;fontStyle=1;" value="C" vertex="1">
+          <mxGeometry height="25" width="25" x="940" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_arr2" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="965" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_B" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF08A;strokeColor=#CA8A04;strokeWidth=1.5;align=center;fontSize=11;fontColor=#854D0E;fontStyle=1;" value="B" vertex="1">
+          <mxGeometry height="25" width="25" x="980" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_arr3" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1005" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_D" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry height="25" width="25" x="1020" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_arr4" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1045" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="i1_E" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="E" vertex="1">
+          <mxGeometry height="25" width="25" x="1060" y="455" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i1_fitness" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1F2937;" value="(105 mins)" vertex="1">
+          <mxGeometry height="25" width="80" x="1100" y="455" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i1_tabuinfo" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&lt;b&gt;Add Tabu Move:&lt;/b&gt; (B, C)&lt;br/&gt;&lt;b&gt;Tabu List:&lt;/b&gt; [(B, C)]" vertex="1">
+          <mxGeometry height="40" width="160" x="1330" y="440" as="geometry" />
+        </mxCell>
+        
+        <!-- ITERATION 2 -->
+        <mxCell id="iter2_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" value="" vertex="1">
+          <mxGeometry height="145" width="680" x="830" y="515" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter2_title" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="ITERATION 2: Avoiding Local Optima &amp;amp; Tabu Restrictions" vertex="1">
+          <mxGeometry height="20" width="350" x="840" y="520" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter2_moves" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="• Swap(C, B) &amp;rarr; [A &amp;rarr; B &amp;rarr; C &amp;rarr; D &amp;rarr; E] (120 mins) &lt;b&gt;&lt;font color='#DC2626'&gt;&amp;nbsp;&amp;nbsp;&amp;rarr; FORBIDDEN (Tabu Match!)&lt;/font&gt;&lt;/b&gt;&lt;br/&gt;• Swap(D, E) &amp;rarr; [A &amp;rarr; C &amp;rarr; B &amp;rarr; E &amp;rarr; D] (95 mins) &lt;b&gt;&lt;font color='#16A34A'&gt;&amp;nbsp;&amp;nbsp;&amp;rarr; Allowed &amp;amp; Better! (New Best)&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="500" x="840" y="545" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter2_upd_lbl" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&lt;b&gt;Update:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="25" width="50" x="840" y="615" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i2_A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="A" vertex="1">
+          <mxGeometry height="25" width="25" x="900" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_arr1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="925" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_C" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="C" vertex="1">
+          <mxGeometry height="25" width="25" x="940" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_arr2" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="965" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_B" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#3B82F6;strokeWidth=1;align=center;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="B" vertex="1">
+          <mxGeometry height="25" width="25" x="980" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_arr3" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1005" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_E" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF08A;strokeColor=#CA8A04;strokeWidth=1.5;align=center;fontSize=11;fontColor=#854D0E;fontStyle=1;" value="E" vertex="1">
+          <mxGeometry height="25" width="25" x="1020" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_arr4" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1045" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="i2_D" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF08A;strokeColor=#CA8A04;strokeWidth=1.5;align=center;fontSize=11;fontColor=#854D0E;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry height="25" width="25" x="1060" y="615" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i2_fitness" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1F2937;" value="(95 mins)" vertex="1">
+          <mxGeometry height="25" width="80" x="1100" y="615" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i2_tabuinfo" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&lt;b&gt;Add Tabu Move:&lt;/b&gt; (D, E)&lt;br/&gt;&lt;b&gt;Tabu List:&lt;/b&gt; [(B, C), (D, E)]" vertex="1">
+          <mxGeometry height="40" width="160" x="1330" y="595" as="geometry" />
+        </mxCell>
+        
+        <!-- ITERATION 3 -->
+        <mxCell id="iter3_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" value="" vertex="1">
+          <mxGeometry height="130" width="680" x="830" y="675" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter3_title" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="ITERATION 3: End of Short Local Search Run" vertex="1">
+          <mxGeometry height="20" width="300" x="840" y="680" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter3_desc" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="• Running limit reached or no further improvements. TS finishes and returns the best local result." vertex="1">
+          <mxGeometry height="30" width="600" x="840" y="705" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iter3_res_lbl" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&lt;b&gt;Final TS Result:&lt;/b&gt;" vertex="1">
+          <mxGeometry height="25" width="100" x="840" y="755" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i3_A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;align=center;fontSize=11;fontColor=#14532D;fontStyle=1;" value="A" vertex="1">
+          <mxGeometry height="25" width="25" x="950" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_arr1" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="975" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_C" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;align=center;fontSize=11;fontColor=#14532D;fontStyle=1;" value="C" vertex="1">
+          <mxGeometry height="25" width="25" x="990" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_arr2" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1015" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_B" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;align=center;fontSize=11;fontColor=#14532D;fontStyle=1;" value="B" vertex="1">
+          <mxGeometry height="25" width="25" x="1030" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_arr3" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1055" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_E" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;align=center;fontSize=11;fontColor=#14532D;fontStyle=1;" value="E" vertex="1">
+          <mxGeometry height="25" width="25" x="1070" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_arr4" parent="1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="&amp;rarr;" vertex="1">
+          <mxGeometry height="25" width="15" x="1095" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="i3_D" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;strokeWidth=1.5;align=center;fontSize=11;fontColor=#14532D;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry height="25" width="25" x="1110" y="755" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="i3_fitness" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1F2937;" value="(95 mins)" vertex="1">
+          <mxGeometry height="25" width="80" x="1150" y="755" as="geometry" />
+        </mxCell>
+        
+        <!-- =================== COMBINATION RESULT =================== -->
+        <mxCell id="right_result_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;align=center;verticalAlign=top;fontColor=#475569;fontStyle=1;fontSize=12;" value="" vertex="1">
+          <mxGeometry height="140" width="720" x="810" y="845" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="result_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#CBD5E1;align=center;fontSize=11;fontColor=#334155;fontStyle=1;" value="INTEGRATION COMPARISON" vertex="1">
+          <mxGeometry height="25" width="220" x="825" y="855" as="geometry" />
+        </mxCell>
+        
+        <!-- Before Box -->
+        <mxCell id="result_before" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF5F5;strokeColor=#FEB2B2;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" value="" vertex="1">
+          <mxGeometry height="80" width="330" x="830" y="890" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rb_title" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#9B1C1C;fontStyle=1;" value="BEFORE (GA only)" vertex="1">
+          <mxGeometry height="20" width="150" x="840" y="895" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rb_desc" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="Individual kept is &lt;b&gt;[A &amp;rarr; B &amp;rarr; C &amp;rarr; D &amp;rarr; E]&lt;/b&gt;&lt;br/&gt;&lt;b&gt;Tardiness: 120 mins&lt;/b&gt;" vertex="1">
+          <mxGeometry height="35" width="310" x="840" y="925" as="geometry" />
+        </mxCell>
+        
+        <!-- After Box -->
+        <mxCell id="result_after" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBF5FF;strokeColor=#93C5FD;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;" value="" vertex="1">
+          <mxGeometry height="80" width="330" x="1180" y="890" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ra_title" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#1E3A8A;fontStyle=1;" value="AFTER (GA + Tabu Search)" vertex="1">
+          <mxGeometry height="20" width="180" x="1190" y="895" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ra_desc" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#475569;" value="Individual improved to &lt;b&gt;[A &amp;rarr; C &amp;rarr; B &amp;rarr; E &amp;rarr; D]&lt;/b&gt;&lt;br/&gt;&lt;b&gt;Tardiness: 95 mins (21% reduction!)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="35" width="310" x="1190" y="925" as="geometry" />
+        </mxCell>
+        
+        
+        <!-- =================== RIGHT PANEL LINKING ARROWS =================== -->
+        
+        <!-- P1 to P2 Transition -->
+        <mxCell id="arrow_r_p1_to_p2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#94A3B8;strokeWidth=1.5;" edge="1" source="right_phase1_bg" target="right_phase2_bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Iteration 1 to Iteration 2 -->
+        <mxCell id="arrow_r_i1_to_i2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#94A3B8;strokeWidth=1.5;exitX=0.07;exitY=1;exitDx=0;exitDy=0;entryX=0.07;entryY=0;entryDx=0;entryDy=0;" edge="1" source="iter1_box" target="iter2_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Iteration 2 to Iteration 3 -->
+        <mxCell id="arrow_r_i2_to_i3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#94A3B8;strokeWidth=1.5;exitX=0.07;exitY=1;exitDx=0;exitDy=0;entryX=0.07;entryY=0;entryDx=0;entryDy=0;" edge="1" source="iter2_box" target="iter3_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Phase 1 down to Before Comparison -->
+        <mxCell id="arrow_r_p1_to_before" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#EF4444;strokeWidth=1.5;exitX=0;exitY=0.5;entryX=0;entryY=0.5;dashed=1;" edge="1" source="right_phase1_bg" target="result_before">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="795;225;795;930" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Final TS down to After Comparison -->
+        <mxCell id="arrow_r_ts_to_after" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#10B981;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" source="iter3_box" target="result_after">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="1170;825;1345;825" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Reinjection arrow from Right panel back to Left Panel (GA Cycle) -->
+        <mxCell id="arrow_reinject_to_left" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#10B981;strokeWidth=2;exitX=1;exitY=0.5;entryX=1;entryY=0.5;" edge="1" source="result_after" target="flow_ga_cycle">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="1560;930;1560;395" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="lbl_reinject_desc" parent="1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#15803D;fontStyle=1;" value="Excellent chromosome returned to GA.&lt;br/&gt;Good genes (A first, E before D)&lt;br/&gt;are inherited by future generations." vertex="1">
+          <mxGeometry height="45" width="220" x="1335" y="340" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

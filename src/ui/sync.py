@@ -135,6 +135,14 @@ def sync_jobs(edited_df: pd.DataFrame, problem: Any, mach_tuples: list):
         job.material_arrival_time = float(row["Material Arrival (min)"])
         job.due_date = float(row["Due Date (min)"])
 
+        # Reconstruct unit_processing_times array
+        unit_pt = np.zeros(len(problem.workstations))
+        for ws in problem.workstations:
+            col_name = f"{ws.name} Unit PT (min)"
+            if col_name in row:
+                unit_pt[ws.id] = float(row[col_name])
+        job.unit_processing_times = unit_pt
+
         # Reconstruct eligible_machines dictionary
         eligible = {ws.id: [] for ws in problem.workstations}
         for ws_id, mach_id, col_name in mach_tuples:

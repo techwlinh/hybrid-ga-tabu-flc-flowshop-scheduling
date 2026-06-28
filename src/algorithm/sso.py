@@ -36,9 +36,12 @@ class SSOScheduler:
 
     def _evaluate_fitness(self, res: ScheduleResult) -> float:
         """
-        Composite fitness to minimize: tardiness is primary, setup cost is a tiny tiebreaker.
+        Weighted combination of Total Tardiness and Makespan.
         """
-        return float(res.total_tardiness + 1e-4 * res.total_setup_cost)
+        from src.config import GA_PARAMETERS
+        alpha = getattr(GA_PARAMETERS, "fitness_alpha", 0.5)
+        beta = getattr(GA_PARAMETERS, "fitness_beta", 0.5)
+        return float(alpha * res.total_tardiness + beta * res.makespan)
 
     def _evaluate_population(
         self, population: np.ndarray, executor: ProcessPoolExecutor = None

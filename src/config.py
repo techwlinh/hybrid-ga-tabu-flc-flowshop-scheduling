@@ -46,17 +46,23 @@ class GAParameters(BaseModel):
     Use_Parallel_Execution: bool = Field(
         default=True, description="Enable multiprocessing parallel evaluations"
     )
+    fitness_alpha: float = Field(
+        default=0.8, description="Weight alpha for total tardiness in fitness"
+    )
+    fitness_beta: float = Field(
+        default=0.2, description="Weight beta for makespan in fitness"
+    )
 
 
 class SMTParameters(BaseModel):
     # Default number of identical parallel SMT machines at each Workstation stage
     Default_Machines_Per_Workstation: Dict[int, int] = Field(
         default_factory=lambda: {
-            0: 2,  # Stage 0: e.g., Printing
-            1: 2,  # Stage 1: e.g., SPI
+            0: 4,  # Stage 0: e.g., Printing
+            1: 5,  # Stage 1: e.g., SPI
             2: 3,  # Stage 2: e.g., High-speed placement
-            3: 2,  # Stage 3: e.g., Multi-functional placement
-            4: 2,  # Stage 4: e.g., Reflow
+            3: 4,  # Stage 3: e.g., Multi-functional placement
+            4: 3,  # Stage 4: e.g., Reflow
         },
         description="Default number of identical parallel SMT machines at each Workstation stage",
     )
